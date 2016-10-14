@@ -1,6 +1,6 @@
 # edxucla
 ##Project Description
-A site where students can connect with tutors.
+A site where students can connect with tutors. Schedule meetings and learn different sunjects.
 
 ## Team Members
 | ![](./photos/jennifer_lin.jpg) | ![](./photos/dau_po_yu.jpg) | ![](./photos/isaac_yeo_en_jie.jpg) | ![](./photos/steven_hua.jpg) |
