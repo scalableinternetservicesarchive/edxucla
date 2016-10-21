@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   get 'sessions/new'
 
   get 'users/new'
@@ -14,4 +18,6 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'sessions#destroy'
   get  '/edit_profile',  to: 'users#edit_profile'
   resources :users
+  resources :password_resets,     only: [:new, :create, :edit, :update]
+
 end
