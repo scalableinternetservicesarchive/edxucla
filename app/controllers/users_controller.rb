@@ -8,6 +8,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @isCorrectUser=current_user?(@user)
   end
 
   def new
@@ -26,6 +27,10 @@ class UsersController < ApplicationController
   end
 
   def edit
+  end
+
+  def edit_profile
+
   end
 
   def update

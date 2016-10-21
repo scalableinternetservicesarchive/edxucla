@@ -6,6 +6,9 @@
         <%= gravatar_for @user %>
         <%= @user.name %>
       </h1>
+      <% if(@isCorrectUser) %>
+        <%= link_to "Update Profile", '/edit_profile', class: "btn btn-md btn-primary" %>
+      <% end %>
     </section>
   </aside>
 </div>
