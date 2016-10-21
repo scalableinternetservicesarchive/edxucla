@@ -1,4 +1,4 @@
-# edxucla
+# edxucla [![Build Status](https://api.travis-ci.org/scalableinternetservices/edxucla.svg?branch=master)](https://travis-ci.org/scalableinternetservices/edxucla)
 ##Project Description
 A site where students can connect with tutors, schedule meetings and learn different subjects.
 
