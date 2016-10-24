@@ -1,0 +1,2 @@
+class CourseUser < ApplicationRecord
+end
