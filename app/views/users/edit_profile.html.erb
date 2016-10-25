@@ -5,9 +5,16 @@
   <div class="col-md-6 col-md-offset-3">
     <%= form_for(@user) do |f| %>
       <%= render 'shared/error_messages' %>
-      <% if @user.education.blank? %>
+      <% if @education_users.blank? %>
         <%= f.label :education %>
         <%= f.text_field :education, placeholder: "Example: UCLA",class: 'form-control' %>
+      <% else %>
+        <%= f.label :education %>
+        <%  @educations.each do |education| %>
+          <%= fields_for education do |ff| %>
+              <%= ff.text_field :name, class: 'form-control' %>
+          <% end %>
+        <% end %>
       <% end %>
       <%= f.submit "Save Changes", class: "btn btn-primary" %>
     <% end %>

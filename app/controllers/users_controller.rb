@@ -31,6 +31,20 @@ class UsersController < ApplicationController
 
   def edit_profile
     @user = User.find(current_user)
+    @education_users = EducationUser.where(user_id: current_user.id)
+    @course_users = CourseUser.where(user_id: current_user.id)
+    #@educations = Education.where(id: @education_users.education_id)
+    num_education_users = @education_users.count
+    educations=[]
+    i=0
+    while i < @education_users.count
+      educations[i]=Education.find_by(id: @education_users[i].education_id)
+      i += 1
+    end
+    @educations=educations
+
+    @num_course_users = @course_users.count
+    @num_educations = @educations.count
   end
 
   def update_profile
