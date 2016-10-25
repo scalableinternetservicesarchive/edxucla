@@ -7,12 +7,27 @@
       <%= render 'shared/error_messages' %>
       <% if @education_users.blank? %>
         <%= f.label :education %>
-        <%= f.text_field :education, placeholder: "Example: UCLA",class: 'form-control' %>
+        <%= f.text_field :education, placeholder: "Example: UCLA", class: 'form-control' %>
       <% else %>
-        <%= f.label :education %>
         <%  @educations.each do |education| %>
+        <%= f.label :education %>
           <%= fields_for education do |ff| %>
-              <%= ff.text_field :name, class: 'form-control' %>
+            <%= ff.text_field :name, class: 'form-control' %>
+            <%= f.label :courses %>
+            <% i = 0 %>
+            <% while i < @course_users.count do %>
+              <% course_users = @course_users[i] %>
+              <% if @counter == i %>
+                <% course_users.each do |course| %>
+                  <%= fields_for course do |fff| %>
+                    <%= fff.text_field :course_id, class: 'form-control' %>
+                    <%= fff.text_field :course_name, class: 'form-control' %>
+                  <% end %>
+                <% end %>
+              <% end %>
+              <% i +=1 %>
+            <% end %>
+            <% @counter += 1%>
           <% end %>
         <% end %>
       <% end %>
