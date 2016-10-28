@@ -10,6 +10,27 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @isCorrectUser=current_user?(@user)
+
+    @education_users = EducationUser.where(user_id: @user.id)
+    @course_users = CourseUser.where(user_id: @user.id)
+
+    num_education_users = @education_users.count
+    educations = []
+    course_users = []
+    i = 0
+
+    while i < @education_users.count
+      educations[i] = Education.find_by(id: @education_users[i].education_id)
+        course_users[i] = @course_users.where(education_id: @education_users[i].education_id)
+      i += 1
+    end
+    @educations = educations
+    @course_users = course_users
+
+    @num_course_users = @course_users.count
+    @num_educations = @educations.count
+    @counter = 0
+
   end
 
   def new
@@ -34,7 +55,7 @@ class UsersController < ApplicationController
     @user = User.find(current_user)
     @education_users = EducationUser.where(user_id: current_user.id)
     @course_users = CourseUser.where(user_id: current_user.id)
-    #@educations = Education.where(id: @education_users.education_id)
+
     num_education_users = @education_users.count
     educations = []
     course_users = []

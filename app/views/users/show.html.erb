@@ -9,6 +9,37 @@
       <% if(@isCorrectUser) %>
         <%= link_to "Edit Profile", '/edit_profile', class: "btn btn-md btn-primary" %>
       <% end %>
+
+    <% if !@education_users.blank? %>
+      <h3>Education</h3>
+      <%  @educations.each do |education| %>
+        <h4><%= education.name %></h4>
+          <% i = 0 %>
+
+          <% if !@course_users[@counter].blank?%>
+            <h5>Courses</h5>
+          <% end %>
+          <ul>
+          <% while i < @course_users.count do %>
+
+            <% course_users = @course_users[i] %>
+            <% if @counter == i %>
+              <% course_users.each do |course| %>
+                <li><%= course.course_name.to_s + " " +
+                        " (" +
+                        course.course_alias.to_s + ") "
+                 %></li>
+              <% end %>
+            <% end %>
+            <% i +=1 %>
+          <% end %>
+          </ul>
+          <% @counter += 1%>
+      <% end %>
+    <% end %>
+
+
+
     </section>
   </aside>
 </div>
