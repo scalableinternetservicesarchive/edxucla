@@ -12,7 +12,5 @@ class CreateCourseUsers < ActiveRecord::Migration[5.0]
     end
 
     add_foreign_key :course_users, :users
-    add_foreign_key :course_users, :educations
-    add_foreign_key :course_users, :courses
   end
 end
