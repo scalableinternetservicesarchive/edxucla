@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
   get  '/edit_profile',  to: 'users#edit_profile'
+  get  '/edit_education',  to: 'users#edit_education'
+  post  '/update_education' => 'users#update_education'
+  post  '/add_education' => 'users#add_education'
+  
   resources :users
   resources :password_resets,     only: [:new, :create, :edit, :update]
 

@@ -1,5 +1,9 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token
+  attr_accessor :remember_token, :education, :course_user
+  has_many :educations
+  has_many :course_users
+  accepts_nested_attributes_for :educations
+
   before_save { email.downcase! }
   validates :name,  presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

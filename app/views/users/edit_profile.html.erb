@@ -1,0 +1,45 @@
+<% provide(:title, 'Edit Profile') %>
+<h1>Edit Profile</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h3>Education
+    </h3>
+    <%  @educations.each do |education| %>
+      <h4><%= education.name %><%= link_to "Edit", :action => :edit_education,:eid => education.id %></h4>
+        <% i = 0 %>
+
+        <% if !@course_users[@counter].blank?%>
+          <h5>Courses</h5>
+        <% end %>
+        <ul>
+        <% while i < @course_users.count do %>
+
+          <% course_users = @course_users[i] %>
+          <% if @counter == i %>
+            <% course_users.each do |course| %>
+              <li><%= course.course_name.to_s + " " +
+                      " (" +
+                      course.course_alias.to_s + ") "
+               %></li>
+            <% end %>
+          <% end %>
+          <% i +=1 %>
+        <% end %>
+        </ul>
+        <% @counter += 1%>
+    <% end %>
+
+    <%= form_for @new_education, url: add_education_path do |f| %>
+      <%= render 'shared/error_messages' %>
+
+      <%= f.label :name %>
+      <%= f.text_field :name, placeholder: "Example: University of California, Los Angeles", class: 'form-control' %>
+
+      <%= f.label :alias %>
+      <%= f.text_field :alias, placeholder: "Example: UCLA", class: 'form-control' %>
+
+      <%= f.submit "Add education", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
