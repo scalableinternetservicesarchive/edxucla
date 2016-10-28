@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :edit, :update]
   before_action :correct_user,   only: [:edit, :update]
 
+
   def index
     @users = User.paginate(page: params[:page])
   end
@@ -57,7 +58,46 @@ class UsersController < ApplicationController
       flash[:success] = "Profile updated"
       redirect_to @user
     else
-      render 'edit'
+      render 'edit_profile'
+    end
+  end
+
+  def edit_education
+    @user = User.find(current_user)
+    @education_users = EducationUser.where(user_id: current_user.id)
+
+    eid = params[:eid]
+    @@eid = eid
+
+    @education = Education.find_by(id: eid)
+    @@e_alias = @education.alias
+
+    @course_users = CourseUser.where(user_id: current_user.id).where(education_id: eid)
+
+    @counter = 0
+    @new_course_user = CourseUser.new()
+  end
+
+  def update_education
+    e_alias=@@e_alias
+    eid=@@eid
+
+    course_user_params = params.require(:course_user).permit(:course_name, :course_alias, :department)
+    course_user_params[:user_id] = current_user.id
+    course_user_params[:education_alias] = e_alias
+    course_user_params[:education_id] = eid
+
+    if !course_user_params[:course_name].blank?
+      @course = Course.find_by(education_id: eid, name: course_user_params[:course_name])
+
+      if @course.blank?
+        @course = Course.create(education_id: e_alias, name: course_user_params[:name], alias: course_user_params[:course_alias])
+      end
+
+      course_user_params[:course_id] = @course.id
+      @course_user = CourseUser.create(course_user_params)
+
+      redirect_to(root_url)
     end
   end
 

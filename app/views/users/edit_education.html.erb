@@ -1,0 +1,27 @@
+<% provide(:title, 'Edit Education') %>
+<h1>Edit Education</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <p><%= @education.name%>
+      <%= link_to "Delete", '/', value: "",class: "btn btn-xs btn-primary" %>
+    </p>
+
+    <ul>
+      <% @course_users.each do |course| %>
+        <li><%= course.course_name.to_s + " (" + course.course_alias.to_s + ")" %>
+        <%= link_to "Delete", '/', value: "",class: "btn btn-xs btn-primary" %></li>
+      <% end %>
+    </ul>
+
+    <%= form_for @new_course_user, url: update_education_path do |f| %>
+      <%= render 'shared/error_messages' %>
+        <%= f.label :course_name %>
+        <%= f.text_field :course_name, class: 'form-control' %>
+
+        <%= f.label :course_alias %>
+        <%= f.text_field :course_alias, class: 'form-control' %>
+        <%= f.submit "Add Course", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
