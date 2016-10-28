@@ -51,6 +51,8 @@ class UsersController < ApplicationController
     @num_course_users = @course_users.count
     @num_educations = @educations.count
     @counter = 0
+
+    @new_education = Education.new
   end
 
   def update_profile
@@ -59,6 +61,34 @@ class UsersController < ApplicationController
       redirect_to @user
     else
       render 'edit_profile'
+    end
+  end
+
+  # add education to Education table if new
+  # link user and education in EducationUser table
+  def add_education
+    education_params = params.require(:education).permit(:name, :alias)
+
+    if !education_params[:name].blank? && !education_params[:alias].blank?
+
+      @education = Education.find_by(name: education_params[:name], alias: education_params[:alias])
+
+      if @education.blank?
+        @education = Education.create(name: education_params[:name], alias: education_params[:alias])
+      end
+
+      @education_user = EducationUser.find_by(user_id: current_user.id, education_id: @education.id)
+
+      if @education_user.blank?
+        @education_user = EducationUser.create(user_id: current_user.id, education_id: @education.id)
+      else
+        flash[:success] = "Education already added"
+        redirect_to User.find(current_user)
+        return
+      end
+
+      flash[:success] = "Education added"
+      redirect_to User.find(current_user)
     end
   end
 
@@ -75,7 +105,7 @@ class UsersController < ApplicationController
     @course_users = CourseUser.where(user_id: current_user.id).where(education_id: eid)
 
     @counter = 0
-    @new_course_user = CourseUser.new()
+    @new_course_user = CourseUser.new
   end
 
   def update_education
@@ -97,7 +127,8 @@ class UsersController < ApplicationController
       course_user_params[:course_id] = @course.id
       @course_user = CourseUser.create(course_user_params)
 
-      redirect_to(root_url)
+      flash[:success] = "Course added"
+      redirect_to User.find(current_user)
     end
   end
 
