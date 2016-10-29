@@ -6,7 +6,5 @@ class CreateCourse < ActiveRecord::Migration[5.0]
       t.string :name
       t.string :alias
     end
-
-    add_foreign_key :courses, :educations
   end
 end
