@@ -203,3 +203,14 @@ input {
     border-bottom: 1px solid $gray-lighter;
   }
 }
+
+/* Edit profile/educations */
+.custom-remove-button{
+  color: rgb(170, 0, 0);
+  opacity: 0.05;
+}
+
+.custom-remove-button:hover{
+  color: rgb(170, 0, 0);
+  opacity: 1.0;
+}
