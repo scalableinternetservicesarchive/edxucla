@@ -8,4 +8,7 @@ class StaticPagesController < ApplicationController
   def about
   end
 
+  def chat
+  end
+
 end
