@@ -4,15 +4,17 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <h4><%= @education.name%>
-      <%= link_to "Delete", '/', value: "",class: "btn btn-xs btn-primary" %>
+      <%= link_to "", '/', value: "",class: "glyphicon glyphicon-remove custom-remove-button" %>
     </h4>
 
     <ul>
       <% @course_users.each do |course| %>
         <li><%= course.course_name.to_s + " (" + course.course_alias.to_s + ")" %>
-        <%= link_to "Delete", '/', value: "",class: "btn btn-xs btn-primary" %></li>
+        <%= link_to "", '/', value: "",class: "glyphicon glyphicon-remove custom-remove-button" %></li>
       <% end %>
     </ul>
+
+
 
     <%= form_for @new_course_user, url: update_education_path do |f| %>
       <%= render 'shared/error_messages' %>
