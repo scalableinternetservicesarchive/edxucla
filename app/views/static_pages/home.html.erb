@@ -1,10 +1,18 @@
-<div class="center jumbotron">
-  <h1>Welcome to edxUCLA</h1>
+<% if logged_in? %>
+    <h1>DASHBOARD</h1>
+    <h3>Your Tutors</h3>
+    <p>You have no tutors</p>    
+    <h3>Your Students</h3>
+    <p>You have no students</p>
+<% else %>
+    <div class="center jumbotron">
+      <h1>Welcome to edxUCLA</h1>
 
-  <h2>
-    This is the home page for the best student and tutor matching site on campus
-    </p>
-  </h2>
+      <h2>
+        This is the home page for the best student and tutor matching site on campus
+        </p>
+      </h2>
 
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-</div>
+      <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+    </div>
+<% end %>
