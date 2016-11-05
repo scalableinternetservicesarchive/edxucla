@@ -5,6 +5,9 @@
     This is the home page for the best student and tutor matching site on campus
     </p>
   </h2>
-
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+  <% if logged_in? %>
+    Thank you for signing up my friend
+  <% else %>
+    <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+  <% end %>
 </div>
