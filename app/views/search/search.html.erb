@@ -1,0 +1,23 @@
+<% provide(:title, 'Search Results') %>
+<h1>Search Results</h1>
+
+<% if @search_exists %>
+  <%= will_paginate %>
+
+  <ul class="results">
+    <% i = 0 %>
+    <% while i < @search.count do %>
+      <% course = @search[i] %>
+      <li>
+        <%= link_to course.name %>
+        <%= "("+course.alias+")" %>
+        <br>
+        <%= link_to @educations[i].name %>
+        <br>
+        <% #link_to "Department: " +course.department %>
+      </li>
+      <% i +=1 %>
+    <% end %>
+  </ul>
+  <%= will_paginate %>
+<% end %>

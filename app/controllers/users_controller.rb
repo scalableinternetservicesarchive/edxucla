@@ -142,7 +142,7 @@ class UsersController < ApplicationController
       @course = Course.find_by(education_id: eid, name: course_user_params[:course_name])
 
       if @course.blank?
-        @course = Course.create(education_id: e_alias, name: course_user_params[:name], alias: course_user_params[:course_alias])
+        @course = Course.create(education_id: @@eid, name: course_user_params[:course_name], alias: course_user_params[:course_alias])
       end
 
       course_user_params[:course_id] = @course.id
