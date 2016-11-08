@@ -25,6 +25,26 @@
           <li><%= link_to "Log in", login_path %></li>
         <% end %>
       </ul>
+
+      <div class="col-xs-6">
+        <form class="form-inline custom-search-bar" action="/search">
+          <div class="input-group input-group-sm">
+            <select class="form-control" id="search-type">
+              <option>User</option>
+              <option>Education</option>
+              <option>Department</option>
+              <option>Course</option>
+            </select>
+          </div>
+
+          <div class="input-group input-group-sm search-input">
+            <input type="text"  class="form-control" placeholder="Search"/>
+            <span class="input-group-addon">
+              <i class="glyphicon glyphicon-search"></i>
+            </span>
+          </div>
+        </form>
+      </div>
     </nav>
   </div>
 </header>
