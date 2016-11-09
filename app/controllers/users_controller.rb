@@ -127,6 +127,7 @@ class UsersController < ApplicationController
 
     @counter = 0
     @new_course_user = CourseUser.new
+    @course = Course.new
   end
 
   def update_education
@@ -138,11 +139,13 @@ class UsersController < ApplicationController
     course_user_params[:education_alias] = e_alias
     course_user_params[:education_id] = eid
 
+    course_params = params.require(:course).permit(:department)
+
     if !course_user_params[:course_name].blank?
       @course = Course.find_by(education_id: eid, name: course_user_params[:course_name])
 
       if @course.blank?
-        @course = Course.create(education_id: e_alias, name: course_user_params[:name], alias: course_user_params[:course_alias])
+        @course = Course.create(education_id: @@eid, name: course_user_params[:course_name], alias: course_user_params[:course_alias], department: course_params[:department])
       end
 
       course_user_params[:course_id] = @course.id

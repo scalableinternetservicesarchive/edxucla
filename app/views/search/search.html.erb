@@ -1,0 +1,42 @@
+<% provide(:title, 'Search Results') %>
+<h1>Search Results</h1>
+
+<% if @search_type > 0 %>
+  <%= will_paginate %>
+      <ul class="results">
+        <% i = 0 %>
+        <% if @search_type == 1 %>
+          <% while i < @search.count do %>
+            <% course = @search[i] %>
+            <li>
+              <%= link_to course.name %>
+              <%= "("+course.alias+")" %>
+              <br>
+              <%= link_to @educations[i].name %>
+              <br>
+              <% #link_to "Department: " +course.department %>
+            </li>
+            <% i +=1 %>
+          <% end %>
+        <% elsif @search_type == 2 %>
+          <% while i < @search.count do %>
+            <% education = @search[i] %>
+            <li>
+              <%= link_to education.name %>
+              <%= "("+education.alias+")" %>
+            </li>
+            <% i +=1 %>
+          <% end %>
+        <% elsif @search_type == 3 %>
+          <% while i < @search.count do %>
+            <% user = @search[i] %>
+            <li>
+              <%= gravatar_for user, size: 50 %>
+              <%= link_to user.name, user %>
+            </li>
+            <% i +=1 %>
+          <% end %>
+        <% end %>
+      </ul>
+  <%= will_paginate %>
+<% end %>

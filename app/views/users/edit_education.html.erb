@@ -14,8 +14,6 @@
       <% end %>
     </ul>
 
-
-
     <%= form_for @new_course_user, url: update_education_path do |f| %>
       <%= render 'shared/error_messages' %>
         <%= f.label :course_name %>
@@ -23,6 +21,12 @@
 
         <%= f.label :course_alias %>
         <%= f.text_field :course_alias, class: 'form-control' %>
+
+        <%= fields_for @course do |ff| %>
+          <%= ff.label :department %>
+          <%= ff.text_field :department, class: 'form-control' %>
+        <% end %>
+
         <%= f.submit "Add Course", class: "btn btn-primary" %>
     <% end %>
   </div>
