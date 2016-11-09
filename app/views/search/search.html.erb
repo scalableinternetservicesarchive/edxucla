@@ -1,33 +1,33 @@
 <% provide(:title, 'Search Results') %>
 <h1>Search Results</h1>
 
-<% if @search_type > 0 %>
+<% unless @search_result_type.empty? %>
   <%= will_paginate %>
       <ul class="results">
         <% i = 0 %>
-        <% if @search_type == 1 %>
+        <% if @search_result_type == "courses" %>
           <% while i < @search.count do %>
             <% course = @search[i] %>
             <li>
-              <%= link_to course.name %>
+              <%= link_to course.name, :type => "User-courses", :input => course.id %>
               <%= "("+course.alias+")" %>
               <br>
-              <%= link_to @educations[i].name %>
+              <%= link_to @educations[i].name, :type => "Courses-education", :input => @educations[i].id %>
               <br>
-              <% #link_to "Department: " +course.department %>
+              <%= link_to "Department: " +course.department, :type => "Courses-department", :input => course.department %>
             </li>
             <% i +=1 %>
           <% end %>
-        <% elsif @search_type == 2 %>
+        <% elsif @search_result_type == "educations" %>
           <% while i < @search.count do %>
             <% education = @search[i] %>
             <li>
-              <%= link_to education.name %>
+              <%= link_to education.name, :type => "Courses-education", :input => education.id %>
               <%= "("+education.alias+")" %>
             </li>
             <% i +=1 %>
           <% end %>
-        <% elsif @search_type == 3 %>
+        <% elsif @search_result_type == "users" %>
           <% while i < @search.count do %>
             <% user = @search[i] %>
             <li>

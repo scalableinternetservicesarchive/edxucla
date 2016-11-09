@@ -2,15 +2,14 @@ class SearchController < ApplicationController
   skip_before_filter :verify_authenticity_token
   def search
     # TODO: Add input sanitation
-    @search_type = 0
+    @search_result_type = ""
 
     if params[:input].nil?
-      @search_type = -1
       return
     end
 
     if params[:type] == "Course" || params[:type] == "Department"
-      @search_type = 1
+      @search_result_type = "courses"
 
       if params[:type] == "Course"
         courses = Course.where('name LIKE :search OR alias LIKE :search', search: "%#{params[:input]}%")
@@ -38,16 +37,61 @@ class SearchController < ApplicationController
       @educations = educations
 
     elsif params[:type] == "Education"
-      @search_type = 2
+      @search_result_type = "educations"
 
       educations = Education.where('name LIKE :search OR alias LIKE :search', search: "%#{params[:input]}%")
 
     @search = educations.paginate(page: params[:page])
 
     elsif params[:type] == "User"
-      @search_type = 3
+      @search_result_type = "users"
       users = User.where('name LIKE :search', search: "%#{params[:input]}%")
       @search = users.paginate(page: params[:page])
+
+    elsif params[:type] == "User-courses"
+      @search_result_type = "users"
+      course_users = CourseUser.where('course_id LIKE :search', search: "%#{params[:input]}%")
+
+      i = 0
+      user_id_array = []
+
+      while i < course_users.count
+        user_id_array[i] = course_users[i].user_id
+        i += 1
+      end
+
+      users = User.where(id: user_id_array)
+      @search = users.paginate(page: params[:page])
+
+    elsif params[:type] == "Courses-department"
+      @search_result_type = "courses"
+      courses = Course.where('department LIKE :search', search: "%#{params[:input]}%")
+
+      i = 0
+      educations = []
+
+      while i < courses.count
+        educations[i] = Education.where(id: courses[i].education_id)[0]
+        i += 1
+      end
+
+      @educations = educations
+      @search = courses.paginate(page: params[:page])
+
+    elsif params[:type] == "Courses-education"
+      @search_result_type = "courses"
+      courses = Course.where('education_id LIKE :search', search: "%#{params[:input]}%")
+
+      i = 0
+      educations = []
+
+      while i < courses.count
+        educations[i] = Education.where(id: courses[i].education_id)[0]
+        i += 1
+      end
+
+      @educations = educations
+      @search = courses.paginate(page: params[:page])
     end
 
   end
