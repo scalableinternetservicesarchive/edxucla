@@ -4,8 +4,6 @@
     <nav>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Home", root_path %></li>
-        <li><%= link_to "Profile", current_user %></li>
-        <li><%= link_to "Chat", chat_path %></li>
 	<% if logged_in? %>
           <li><%= link_to "Users", users_path %></li>
           <li class="dropdown">
@@ -13,6 +11,8 @@
               Account <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
+              <li><%= link_to "Profile", current_user %></li>
+              <li><%= link_to "Chat", chat_path %></li>
               <li><%= link_to "Settings", edit_user_path(current_user) %></li>
               <li class="divider"></li>
               <li>
@@ -27,6 +27,8 @@
 
       <div class="col-xs-6">
         <form class="form-inline custom-search-bar" action="/search">
+          <table>
+            <tr>
           <div class="input-group input-group-sm">
             <select class="form-control" id="search-type">
               <option>User</option>
@@ -35,14 +37,17 @@
               <option>Course</option>
             </select>
           </div>
-
+          </tr>
+          <tr>
           <div class="input-group input-group-sm search-input">
             <input type="text"  class="form-control" placeholder="Search"/>
             <span class="input-group-addon">
               <i class="glyphicon glyphicon-search"></i>
             </span>
           </div>
-        </form>
+          </tr>
+          </table>
+          </form>
       </div>
     </nav>
   </div>
