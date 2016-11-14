@@ -1,3 +1,4 @@
+
 .guide {
 	display: block;
 	margin: 0 auto;
@@ -12,12 +13,33 @@ h1 {
 h5 {
 	text-align: center; 
 }
-hr {
-    border-style: solid;
-    border-width: 5px;
-}
+
 #contact_form{
 	display: block;
 	margin: 0 auto;
 	width: 50%;
+}
+
+.btn-primary {
+  color: white;
+  background-color: #F05F40;
+  border-color: #F05F40;
+  -webkit-transition: all 0.35s;
+  -moz-transition: all 0.35s;
+  transition: all 0.35s;
+}
+
+.intro{
+	font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+    color: #fff;
+    text-shadow: none;
+    font-size: 50px;
+}
+
+.sub{
+	color: #fff;
 }

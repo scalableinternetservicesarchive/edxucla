@@ -1,3 +1,4 @@
+
 <% if logged_in? %>
     <h1>DASHBOARD</h1>
     <h3>Your Tutors</h3>
@@ -5,14 +6,16 @@
     <h3>Your Students</h3>
     <p>You have no students</p>
 <% else %>
-    <div class="center jumbotron">
-      <h1>Welcome to edxUCLA</h1>
+  <h1 class="intro">WELCOME TO EDXUCLA</h1>
+  <hr>
+    <div class="center">
+      <h1 class="sub">Your learning and teaching connection</h1>
 
-      <h2>
-        This is the home page for the best student and tutor matching site on campus
-        </p>
-      </h2>
+      <p class="sub">
+        Sign up today and get a private tutor just for you
+      </p>
 
       <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
     </div>
 <% end %>
+

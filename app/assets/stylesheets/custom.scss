@@ -11,8 +11,40 @@ $gray-medium-light: #eaeaea;
   box-sizing:         border-box;
 }
 
+html,
 body {
+	background: url('/header.jpg')no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   padding-top: 60px;
+  font-family: 'Merriweather', 'Helvetica Neue', Arial, sans-serif;
+  color: #fff
+}
+
+
+hr {
+  border-color: #F05F40;
+  border-width: 2px;
+  max-width: 50px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+a {
+  -webkit-transition: all 0.35s;
+  -moz-transition: all 0.35s;
+  transition: all 0.35s;
+  color: #F05F40;
+}
+a:hover,
+a:focus {
+  color: #eb3812;
 }
 
 section {
@@ -34,6 +66,7 @@ textarea {
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 1;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
 h1 {
@@ -52,10 +85,6 @@ h2 {
   color: #777;
 }
 
-p {
-  font-size: 1.1em;
-  line-height: 1.7em;
-}
 /* header */
 
 #logo {
@@ -234,3 +263,4 @@ input {
     border-bottom: 1px solid $gray-lighter;
   }
 }
+
