@@ -1,7 +1,20 @@
 class UserRequestController < ApplicationController
   def new
+    request_params = params.permit(:user, :type, :course, :message)
+    curr_user = current_user
+
+    if request_params[:course].nil?
+      request_params[:course] = 0
+    end
+
+    @user_request = UserRequest.create(request_type: request_params[:type], sender: curr_user.id, receiver: request_params[:user], course_id: request_params[:course])
+
+    unless request_params[:message].empty?
+      @user_message = UserMessage.create(message: request_params[:message], sender: curr_user.id, receiver: request_params[:user])
+    end
+
     flash[:success] = "Request sent"
-    redirect_to User.find(params[:user])
+    redirect_to User.find(request_params[:user])
   end
 
   def show_tutor

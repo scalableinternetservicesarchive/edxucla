@@ -1,0 +1,2 @@
+class SessionMessage < ApplicationRecord
+end
