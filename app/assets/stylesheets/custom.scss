@@ -234,3 +234,14 @@ input {
     border-bottom: 1px solid $gray-lighter;
   }
 }
+
+.button-to-form{
+  display: inline-block;
+}
+
+input[type="radio"], label{
+     float:left;
+    }
+input{
+ clear:left;
+}

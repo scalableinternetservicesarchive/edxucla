@@ -23,6 +23,12 @@ Rails.application.routes.draw do
   post  '/add_education' => 'users#add_education'
   post  '/search',  to: 'search#search'
   get  '/search',  to: 'search#search'
+  get 'request_tutor',  to: 'user_request#show_tutor'
+  post 'request_tutor', to: 'user_request#show_tutor'
+  get 'request_student',  to: 'user_request#show_student'
+  post 'request_student', to: 'user_request#show_student'
+
+  post 'send_user_request', to: 'user_request#new'
 
   resources :users
   resources :password_resets,     only: [:new, :create, :edit, :update]
