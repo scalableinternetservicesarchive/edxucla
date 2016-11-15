@@ -11,4 +11,7 @@ class StaticPagesController < ApplicationController
   def chat
   end
 
+  def requests
+  end
+
 end
