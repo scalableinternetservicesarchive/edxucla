@@ -306,7 +306,21 @@ input {
 .grey{
   color: #808080;
 }
+
 .icon{
   height: 64px;
   width: 56px;
+}
+
+.button-to-form{
+ display: inline-block; 
+  
+}
+
+input[type="radio"], label{
+      float:left;
+     }
+input{
+ clear:left;
+ color: #000000;
 }
