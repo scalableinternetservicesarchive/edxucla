@@ -89,4 +89,7 @@ class UserRequestController < ApplicationController
     @counter = 0
   end
 
+  def requests
+  end
+
 end

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get  '/help',    to: 'static_pages#help'
   get  '/about',   to: 'static_pages#about'
   get  '/chat', to: 'static_pages#chat'
-  get  '/requests', to: 'static_pages#requests'
+  get  '/requests', to: 'user_request#requests'
   get  '/signup',  to: 'users#new'
   post '/signup',  to: 'users#create'
   get    '/login',   to: 'sessions#new'
