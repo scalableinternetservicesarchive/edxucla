@@ -43,3 +43,11 @@ h5 {
 .sub{
 	color: #fff;
 }
+
+.feature{
+
+    border-color: #fff;
+    background-color: #fff;
+    text-align: center; 
+    width: 100%;
+}

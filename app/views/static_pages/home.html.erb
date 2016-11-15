@@ -1,21 +1,25 @@
 
 <% if logged_in? %>
-    <h1>DASHBOARD</h1>
+<br><br>
+    <h1 class="sub">MY DASHBOARD</h1>
     <h3>Your Tutors</h3>
     <p>You have no tutors</p>    
     <h3>Your Students</h3>
     <p>You have no students</p>
 <% else %>
+  <body><br><br><br><br><br><br><br><br>
   <h1 class="intro">WELCOME TO EDXUCLA</h1>
   <hr>
     <div class="center">
       <h1 class="sub">Your learning and teaching connection</h1>
 
       <p class="sub">
-        Sign up today and get a private tutor just for you
+        Sign up today and get a private tutor just for you, or you can learn more about us from <%= link_to "About", about_path %>
       </p>
 
       <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
     </div>
+  <br><br><br><br><br><br><br>
+
 <% end %>
 

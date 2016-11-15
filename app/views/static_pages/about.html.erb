@@ -1,13 +1,14 @@
 <% provide(:title, "About") %>
 <%= stylesheet_link_tag "help.css" %>
-<h1>About</h1>
+<br><br><h1>About</h1>
 <hr>
 <p>
   edxUCLA is a site where students can connect with tutors, schedule meetings and learn different subjects. 
-  For questions on how to navigate the site, please refer to the help page. <br><br><br>
+  For questions on how to navigate the site, please refer to <%= link_to "Help", help_path %>. <br><br><br>
 </p>
 
-  <div><h1>Team Members</h1><br>
+  <div><h1>Team Members</h1>
+  <hr>
   <table align="center">
   <tr>
     <th>Steven Hua</th>
@@ -23,21 +24,5 @@
   </tr>
   </table></div><br><br>
   
-  If you have any questions or any feedback, feel free to contact us using the following form. Thank you.<br><br>
-  <form id="contact_form" action="javascript:myFunction(); return false;" method="POST" enctype="multipart/form-data">
-	<div class="row">
-	  <h1>How are we doing?</h1><br><br>
-		<label for="name">Your name:</label><br />
-		<input id="name" class="input" name="name" type="text" value="" size="30" /><br />
-	</div>
-	<div class="row">
-		<label for="email">Your email:</label><br />
-		<input id="email" class="input" name="email" type="text" value="" size="30" /><br />
-	</div>
-	<div class="row">
-		<label for="message">Your message:</label><br />
-		<textarea id="message" class="input" name="message" rows="7" cols="30"></textarea><br />
-	</div>
-	<input id="submit_button" type="submit" value="Send email" />
-</form>	
+
   
