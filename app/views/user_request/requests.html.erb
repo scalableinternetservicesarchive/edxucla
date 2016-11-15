@@ -11,24 +11,29 @@
         <% request = @user_request[i] %>
         <% user = @users[i][0] %>
         <% course = @courses[i][0] %>
+        <% course_id = 0 %>
           <li>
             <%= gravatar_for user, size: 50 %>
             <%= link_to user.name, user %>
-            <br>
-            <% if request.request_type == 'tutor_request'  %>
-              <%= "Tutor Request" %>
+             <% if request.request_type == 'tutor_request'  %>
+              <%= "wants you to tutor them" %>
+              <% tutor = user.id%>
+              <% student = current_user.id%>
             <% elsif request.request_type == 'student_request'%>
-              <%= "Student Request" %>
+              <%= "wants to tutor you" %>
+              <% tutor = current_user.id%>
+              <% student = user.id%>
             <% end %>
             <br>
             <% unless course.nil? %>
               <% education = @educations[i][0] %>
               <%= "Course: " + course.name + " (" + education.alias + "-" +course.alias + ")" %>
+              <% course_id = course.id%>
             <% end %>
 
-            <%= button_to "Accept", {action: 'accept_request', controller: 'user_request'}, {form_class: 'button-to-form', class: "btn btn-sm btn-primary btn-requests"} %>
+            <%= button_to "Accept", {action: 'accept_request', controller: 'user_request', tutor: tutor, student: student, course_id: course_id, request_id: request.id}, {form_class: 'button-to-form', class: "btn btn-sm btn-primary btn-requests"} %>
 
-            <%= button_to "Decline", {action: 'decline_request', controller: 'user_request'}, {form_class: 'button-to-form', class: "btn btn-sm btn-primary btn-requests"} %>
+            <%= button_to "Decline", {action: 'decline_request', controller: 'user_request', request_id: request.id}, {form_class: 'button-to-form', class: "btn btn-sm btn-primary btn-requests"} %>
           </li>
           <% i +=1 %>
       <% end %>

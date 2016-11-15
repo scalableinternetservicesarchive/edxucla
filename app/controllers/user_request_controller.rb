@@ -117,11 +117,25 @@ class UserRequestController < ApplicationController
   end
 
   def accept_request
-    puts "accept request"
+    request_id = params[:request_id]
+
+    session_params = params.permit(:tutor, :student, :course_id)
+    request = UserRequest.find(request_id)
+
+    tutoring_session = TutoringSession.create(session_params)
+    request.destroy
+
+    flash[:success] = "Request Accepted"
+    redirect_to requests_path
   end
 
   def decline_request
-    puts "decline request"
+    request_id = params[:request_id]
+    request = UserRequest.find(request_id)
+    request.destroy
+
+    flash[:success] = "Request Declined"
+    redirect_to requests_path
   end
 
 end
