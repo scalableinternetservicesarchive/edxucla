@@ -6,11 +6,8 @@
   <div class="col-md-6 col-md-offset-3">
     <h3>My Education</h3>
     <%  @educations.each do |education| %>
-      <h4><%=  link_to education.name , :action => :edit_education,:eid => education.id %></h4>
+      <h4 class="education"><%=  link_to education.name , :action => :edit_education,:eid => education.id %></h4>
         <% i = 0 %>
-        <% if !@course_users[@counter].blank?%>
-        <% end %>
-        
         <ul>
         <% while i < @course_users.count do %>
           <% course_users = @course_users[i] %>

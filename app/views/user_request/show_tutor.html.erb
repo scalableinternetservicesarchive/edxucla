@@ -1,6 +1,6 @@
 <% provide(:title, 'Request') %>
 <body class="default">
-<h1>Request a Tutor</h1>
+<br><br><h1>Request a Tutor</h1>
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
@@ -32,7 +32,7 @@
           <% @counter += 1%>
         <% end %>
 
-        <%= text_area_tag "message", nil ,:size => "30x10", placeholder: "Message" %>
+        <%= text_area_tag "message", nil ,:size => "30x10", placeholder: "Message", class: "black"%>
         <%= hidden_field_tag :user, @user.id %>
         <%= hidden_field_tag :type, 'tutor_request' %>
         <%= submit_tag "Send Request", class: "btn btn-primary" %>

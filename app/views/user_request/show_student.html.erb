@@ -31,8 +31,7 @@
           <% end %>
           <% @counter += 1%>
         <% end %>
-
-        <%= text_area_tag "message", nil ,:size => "30x10", placeholder: "Message" %>
+        <%= text_area_tag "message", nil ,:size => "30x10", placeholder: "Message", class: "black" %>
         <%= hidden_field_tag :user, @user.id %>
         <%= hidden_field_tag :type, "student_request" %>
         <%= submit_tag "Send Request", :user => @user.id, class: "btn btn-primary" %>

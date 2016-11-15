@@ -1,6 +1,5 @@
 <% provide(:title, @user.name) %>
 <body class="default">
-
 <br><br><h1 class="sub">Profile</h1>
 <div class="row">
   <aside class="col-md-9">
@@ -28,7 +27,6 @@
         <h4 class="education"><%= education.name %></h4>
           <% i = 0 %>
           <% if !@course_users[@counter].blank?%>
-            <h4>Courses</h4>
           <% end %>
           <ul>
           <% while i < @course_users.count do %>
@@ -47,8 +45,9 @@
           </ul>
           <% @counter += 1%>
       <% end %>
-    <% end %>
 
+    <% end %>
+    
 
 
     </section>
