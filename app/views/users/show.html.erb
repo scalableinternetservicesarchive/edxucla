@@ -1,23 +1,23 @@
 <% provide(:title, @user.name) %>
+<br><br><h1 class="sub">Profile</h1>
 <div class="row">
   <aside class="col-md-4">
     <section class="user_info">
       <h1>
         <%= gravatar_for @user %>
         <%= @user.name %>
-      </h1>
+      </h1><br>
       <% if(@isCorrectUser) %>
         <%= link_to "Edit Profile", '/edit_profile', class: "btn btn-md btn-primary" %>
       <% end %>
 
     <% if !@education_users.blank? %>
-      <h3>Education</h3>
-      <%  @educations.each do |education| %>
-        <h4><%= education.name %></h4>
+    
+      <br><br><h3>Education</h3>
+      <% @educations.each do |education| %>
+        <h4 class="education"><%= education.name %></h4>
           <% i = 0 %>
-
           <% if !@course_users[@counter].blank?%>
-            <h5>Courses</h5>
           <% end %>
           <ul>
           <% while i < @course_users.count do %>
