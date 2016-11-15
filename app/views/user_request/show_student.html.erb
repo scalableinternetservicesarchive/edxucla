@@ -1,0 +1,45 @@
+<% provide(:title, 'Request') %>
+<h1>Request a Student</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h3><%= "Request for " + @user.name + " #" +@user.id.to_s %></h3>
+
+    <% if !@education_users.blank? %>
+      <%= form_tag("/send_user_request", method: "post") do %>
+        <h3>Courses</h3>
+        <% @educations.each do |education| %>
+          <% i = 0 %>
+          <% if !@course_users[@counter].blank?%>
+          <% end %>
+
+          <% while i < @course_strings.count do %>
+            <% course_strings = @course_strings[i] %>
+            <% course_users = @course_users[i] %>
+
+            <% if @counter == i %>
+              <% j = 0 %>
+              <% course_strings.each do |course_string| %>
+                <%= radio_button_tag(:course, course_users[j].course_id) %>
+                <%= label_tag(:course, course_string) %>
+                <% j += 1 %>
+              <% end %>
+            <% end %>
+
+            <% i += 1 %>
+          <% end %>
+          <% @counter += 1%>
+        <% end %>
+
+        <%= text_area_tag "message", nil ,:size => "30x10", placeholder: "Message" %>
+        <%= hidden_field_tag :user, @user.id %>
+        <%= hidden_field_tag :type, "student_request" %>
+        <%= submit_tag "Send Request", :user => @user.id, class: "btn btn-primary" %>
+      <% end %>
+
+    <% else %>
+      <h4>This user has no active courses</h3>
+    <% end %>
+
+  </div>
+</div>

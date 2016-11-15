@@ -276,3 +276,14 @@ input {
 .education{
   text-indent: 20px;
 }
+
+.button-to-form{
+  display: inline-block;
+}
+
+input[type="radio"], label{
+     float:left;
+    }
+input{
+ clear:left;
+}

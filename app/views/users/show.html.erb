@@ -1,14 +1,22 @@
 <% provide(:title, @user.name) %>
 <br><br><h1 class="sub">Profile</h1>
 <div class="row">
-  <aside class="col-md-4">
+  <aside class="col-md-9">
     <section class="user_info">
       <h1>
         <%= gravatar_for @user %>
-        <%= @user.name %>
+        <%= @user.name + " #" + @user.id.to_s %>
       </h1><br>
+
       <% if(@isCorrectUser) %>
         <%= link_to "Edit Profile", '/edit_profile', class: "btn btn-md btn-primary" %>
+      <% else %>
+        <%= button_to "Request Tutor", {action: 'show_tutor', controller: 'user_request', user: @user.id}, {form_class: 'button-to-form', class: "btn btn-md btn-primary button-to-mod"} %>
+
+        <%= button_to "Request Student", {action: 'show_student', controller: 'user_request', user: @user.id}, {form_class: 'button-to-form', class: "btn btn-md btn-primary button-to-mod"} %>
+
+        <% if false %>
+        <% end%>
       <% end %>
 
     <% if !@education_users.blank? %>
@@ -18,6 +26,7 @@
         <h4 class="education"><%= education.name %></h4>
           <% i = 0 %>
           <% if !@course_users[@counter].blank?%>
+            <h4>Courses</h4>
           <% end %>
           <ul>
           <% while i < @course_users.count do %>
