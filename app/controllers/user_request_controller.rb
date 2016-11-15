@@ -90,6 +90,38 @@ class UserRequestController < ApplicationController
   end
 
   def requests
+    user = current_user
+    @user_request = UserRequest.where(receiver: user.id)
+
+    i = 0
+    users = []
+    courses = []
+    educations = []
+
+    while i < @user_request.count
+      users[i] = User.where(id: @user_request[i][:sender])
+      courses[i] = Course.where(id: @user_request[i][:course_id])
+
+      if courses[i][0].nil?
+        educations[i] = nil
+      else
+        educations[i] = Education.where(id: courses[i][0][:education_id])
+      end
+      i += 1
+    end
+
+    @users = users
+    @courses = courses
+    @educations = educations
+    @user_request = @user_request.paginate(page: params[:page])
+  end
+
+  def accept_request
+    puts "accept request"
+  end
+
+  def decline_request
+    puts "decline request"
   end
 
 end

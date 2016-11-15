@@ -3,4 +3,39 @@
 
 <br><br><h1>Requests</h1>
 
+<% unless @user_request.empty? %>
+  <%= will_paginate %>
+    <ul class="requests">
+      <% i = 0 %>
+      <% while i < @user_request.count do %>
+        <% request = @user_request[i] %>
+        <% user = @users[i][0] %>
+        <% course = @courses[i][0] %>
+          <li>
+            <%= gravatar_for user, size: 50 %>
+            <%= link_to user.name, user %>
+            <br>
+            <% if request.request_type == 'tutor_request'  %>
+              <%= "Tutor Request" %>
+            <% elsif request.request_type == 'student_request'%>
+              <%= "Student Request" %>
+            <% end %>
+            <br>
+            <% unless course.nil? %>
+              <% education = @educations[i][0] %>
+              <%= "Course: " + course.name + " (" + education.alias + "-" +course.alias + ")" %>
+            <% end %>
+
+            <%= button_to "Accept", {action: 'accept_request', controller: 'user_request'}, {form_class: 'button-to-form', class: "btn btn-sm btn-primary btn-requests"} %>
+
+            <%= button_to "Decline", {action: 'decline_request', controller: 'user_request'}, {form_class: 'button-to-form', class: "btn btn-sm btn-primary btn-requests"} %>
+          </li>
+          <% i +=1 %>
+      <% end %>
+    </ul>
+  <%= will_paginate %>
+<% else %>
+  <p>No Requests</p>
+<% end %>
+
 </body>

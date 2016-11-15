@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   post 'request_student', to: 'user_request#show_student'
 
   post 'send_user_request', to: 'user_request#new'
+  post 'accept_request', to: 'user_request#accept_request'
+  post 'decline_request', to: 'user_request#decline_request'
 
   resources :users
   resources :password_resets,     only: [:new, :create, :edit, :update]
