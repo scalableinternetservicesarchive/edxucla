@@ -120,6 +120,8 @@ class UserRequestController < ApplicationController
     request_id = params[:request_id]
 
     session_params = params.permit(:tutor, :student, :course_id)
+    session_params[:status] = "active"
+
     request = UserRequest.find(request_id)
 
     tutoring_session = TutoringSession.create(session_params)
