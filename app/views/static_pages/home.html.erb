@@ -1,13 +1,16 @@
 
 <% if logged_in? %>
-<br><br>
+    <body class="default">
+    <br><br>
     <h1 class="sub">My Dashboard</h1>
     <h3>Your Tutors</h3>
     <p>You have no tutors</p>    
     <h3>Your Students</h3>
     <p>You have no students</p>
+    </body>
 <% else %>
-  <body><br><br><br><br><br><br><br><br>
+  <body class="home">
+  <br><br><br><br><br><br><br><br>
   <h1 class="intro">WELCOME TO EDXUCLA</h1>
   <hr>
     <div class="center">
@@ -19,7 +22,42 @@
 
       <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
     </div>
-  <br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <h1 class="black">Features</h1>
+  <hr><br>
+  <div class="container">
+    <div class="col-lg-3 col-md-6 text-center">
+      <div class="service-box">
+        <img class="icon" src="/chat.png">
+        <h3 class="black">Real Time Chat</h3><br>
+        <h5 class="grey">Chat with your tutors or students anywhere and anytime</h5>
+      </div>
+    </div>
 
+    <div class="col-lg-3 col-md-6 text-center">
+      <div class="service-box">
+        <img class="icon" src="/book.png">
+        <h3 class="black">Private Tutor</h3><br>
+        <h5 class="grey">Find your dream tutor based on your profile and your need</h5>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 text-center">
+      <div class="service-box">
+        <img class="icon" src="/clock.png">
+        <h3 class="black">24 Hour Service</h3><br>
+        <h5 class="grey">Studying late at night? No problem! Our service runs 24/7</h5>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 text-center">
+      <div class="service-box">
+        <img class="icon" src="/original.png">
+        <h3 class="black">Dream job</h3><br>
+        <h5 class="grey">Always dream of being a teacher? Sign up today and join out tutor family</h5>
+      </div>
+    </div>
+  </div>
+  </body>
+
+<br><br><br><br><br><br>
 <% end %>
 

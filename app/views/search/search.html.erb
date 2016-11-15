@@ -1,4 +1,6 @@
 <% provide(:title, 'Search Results') %>
+<body class="default">
+
 <br><br><h1>Search Results</h1>
 
 <% unless @search_result_type.empty? %>
@@ -40,3 +42,4 @@
       </ul>
   <%= will_paginate %>
 <% end %>
+</body>
