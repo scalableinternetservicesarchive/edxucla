@@ -326,11 +326,11 @@ input {
   
 }
 
-input[type="radio"], label{
+.input[type="radio"], label{
       float:left;
      }
-input{
- clear:left;
+
+.input{
  color: #000000;
 }
 
@@ -341,4 +341,8 @@ input{
   -webkit-transition: all 0.35s;
   -moz-transition: all 0.35s;
   transition: all 0.35s;
+}
+
+.right{
+  text-align: right;
 }
