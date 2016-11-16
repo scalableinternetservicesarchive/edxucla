@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114100217) do
+ActiveRecord::Schema.define(version: 20161115203956) do
 
   create_table "course_users", force: :cascade do |t|
     t.integer  "user_id"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20161114100217) do
     t.integer "tutor"
     t.integer "student"
     t.integer "course_id"
+    t.string  "status"
   end
 
   create_table "user_messages", force: :cascade do |t|
