@@ -33,6 +33,11 @@ Rails.application.routes.draw do
   post 'accept_request', to: 'user_request#accept_request'
   post 'decline_request', to: 'user_request#decline_request'
 
+  get 'new_message', to: 'user_message#new_message'
+  post 'new_message', to: 'user_message#new_message'
+  post 'send_new_message', to: 'user_message#send_new_message'
+
+
   resources :users
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
