@@ -1,12 +1,45 @@
-
 <% if logged_in? %>
     <body class="default">
     <br><br>
     <h1 class="sub">My Dashboard</h1>
+
     <h3>Your Tutors</h3>
-    <p>You have no tutors</p>    
+    <ul class ="sessions">
+      <% unless @sessions_student.empty? %>
+        <% i = 0 %>
+        <% while i < @sessions_student.count do %>
+          <li>
+            <%= gravatar_for @tutors[i], size: 40 %>
+            <%= @tutors[i].name %>
+            <br>
+            <%= "Session ID: " + @sessions_student[i].id.to_s %>
+            <% i += 1%>
+          </li>
+        <% end %>
+      <% else %>
+        <p>You have no tutors</p>
+      <% end %>
+    </ul>
+
+
     <h3>Your Students</h3>
-    <p>You have no students</p>
+    <ul class ="sessions">
+      <% unless @sessions_tutor.empty? %>
+        <% i = 0 %>
+        <% while i < @sessions_tutor.count do %>
+        <li>
+          <%= gravatar_for @students[i], size: 40 %>
+          <%= @students[i].name %>
+          <br>
+          <%= "Session ID: " + @sessions_tutor[i].id.to_s %>
+          <% i += 1%>
+        </li>
+        <% end %>
+      <% else %>
+        <p>You have no students</p>
+      <% end %>
+    </ul>
+
     </body>
 <% else %>
   <body class="home">

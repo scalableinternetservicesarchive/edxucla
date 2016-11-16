@@ -343,3 +343,13 @@ input{
     border-bottom: 1px solid $gray-lighter;
   }
 }
+
+.sessions{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  li {
+    overflow: auto;
+    padding: 10px 20px;
+  }
+}
