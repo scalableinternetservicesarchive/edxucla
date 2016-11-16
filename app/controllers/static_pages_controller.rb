@@ -27,10 +27,4 @@ class StaticPagesController < ApplicationController
   def about
   end
 
-  def chat
-  end
-
-  def requests
-  end
-
 end

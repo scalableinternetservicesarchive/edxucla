@@ -1,0 +1,14 @@
+<% provide(:title, "Messages") %>
+<body class="default">
+
+<br><br><h1>Messages</h1>
+<% unless true %>
+  <%= will_paginate %>
+    <ul class="messages">
+
+    </ul>
+  <%= will_paginate %>
+<% else %>
+  <p>No Messages</p>
+<% end %>
+</body>
