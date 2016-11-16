@@ -26,8 +26,6 @@
       <% @educations.each do |education| %>
         <h4 class="education"><%= education.name %></h4>
           <% i = 0 %>
-          <% if !@course_users[@counter].blank?%>
-          <% end %>
           <ul>
           <% while i < @course_users.count do %>
 

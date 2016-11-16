@@ -1,5 +1,9 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@font-face {font-family: "Merriweather"; src: url('/Merriweather.ttf') format('truetype');}
+@font-face {font-family: "HelveticaNeue"; src: url('/Helvetica Neu Bold.ttf') format('truetype');}
+
+
 
 /* mixins, variables, etc. */
 
@@ -21,7 +25,6 @@ $gray-medium-light: #eaeaea;
   -o-background-size: cover;
   background-size: cover;
   padding-top: 60px;
-  font-family: 'Merriweather', 'Helvetica Neue', Arial, sans-serif;
   color: #fff;
   background-size: 100% 100%;
 }
@@ -35,7 +38,6 @@ $gray-medium-light: #eaeaea;
   -o-background-size: cover;
   background-size: cover;
   padding-top: 60px;
-  font-family: 'Merriweather', 'Helvetica Neue', Arial, sans-serif;
   color: #fff;
   background-size: 100% 800px;
 }
@@ -51,6 +53,8 @@ p {
   font-size: 16px;
   line-height: 1.5;
   margin-bottom: 20px;
+  font-family: 'Merriweather';
+
 }
 
 a {
@@ -58,6 +62,8 @@ a {
   -moz-transition: all 0.35s;
   transition: all 0.35s;
   color:#fff;
+  font-family: 'Merriweather';
+
 }
 a:hover,
 a:focus {
@@ -81,16 +87,16 @@ textarea {
 }
 /* typography */
 
-h1, h2, h3, h4, h5, h6 {
-  line-height: 1;
-  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
-}
+
 
 h1 {
   font-size: 3em;
   letter-spacing: -2px;
   margin-bottom: 30px;
   text-align: center;
+  line-height: 1;
+  font-family: 'HelveticaNeue';
+
 }
 
 h2 {
@@ -100,8 +106,12 @@ h2 {
   text-align: center;
   font-weight: normal;
   color: #777;
+  font-family: 'HelveticaNeue';
 }
 
+h3, h4, h5{
+  font-family: 'Merriweather';
+}
 /* header */
 
 #logo {
@@ -300,7 +310,6 @@ input {
 
 .black{
   color: #000000;
-  font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
 }
 
 .grey{
