@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161115203956) do
+ActiveRecord::Schema.define(version: 20161116090807) do
+
+  create_table "conversations", force: :cascade do |t|
+    t.integer  "user_one"
+    t.integer  "user_two"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "course_users", force: :cascade do |t|
     t.integer  "user_id"
@@ -59,8 +66,9 @@ ActiveRecord::Schema.define(version: 20161115203956) do
     t.string   "message"
     t.integer  "sender"
     t.integer  "receiver"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "conversation_id"
   end
 
   create_table "user_requests", force: :cascade do |t|
