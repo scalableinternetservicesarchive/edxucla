@@ -343,10 +343,6 @@ input {
   transition: all 0.35s;
 }
 
-.right{
-  text-align: right;
-}
-
 .requests{
   list-style: none;
   margin: 0;
@@ -355,6 +351,7 @@ input {
     padding: 10px 0;
     border-bottom: 1px solid $gray-lighter;
   }
+}
 
 .sessions{
   list-style-type: none;
@@ -364,4 +361,9 @@ input {
     overflow: auto;
     padding: 10px 20px;
   }
+}
+
+.noclient{
+  text-decoration: underline;
+  color: #F05F40;
 }

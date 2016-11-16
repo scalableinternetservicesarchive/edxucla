@@ -21,8 +21,8 @@
             <% if @counter == i %>
               <% j = 0 %>
               <% course_strings.each do |course_string| %>
-                <%= radio_button_tag(:course, course_users[j].course_id) %>
-                <%= label_tag(:course, course_string) %>
+                  <%= radio_button_tag(:course, course_users[j].course_id) %>
+                  <%= label_tag(:course, course_string) %>
                 <% j += 1 %>
               <% end %>
             <% end %>
