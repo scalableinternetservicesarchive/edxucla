@@ -1,14 +1,36 @@
 <% provide(:title, "Messages") %>
 <body class="default">
+  <div class="container messenger-container">
+    <div class="row messenger-top-row">
+        <div class="col-lg-3">
+           <div class="col-lg-6 message-header">
+            <div>
+              <h2 class="message-other-user"></h2>
+            </div>
+          </div>
+        </div>
+    </div>
 
-<br><br><h1>Messages</h1>
-<% unless true %>
-  <%= will_paginate %>
-    <ul class="messages">
+    <div class="row messenger-middle-row">
+      
+      <div class="conversation-wrap col-lg-3">
+      </div>
+    
+      <div>
+        <div class="message-wrap col-lg-8">
+          <div class="msg-wrap">
+          </div>
+          <div class="send-wrap ">
+              <textarea class="form-control send-message" rows="2" placeholder="Type a message"></textarea>
+          </div>
 
-    </ul>
-  <%= will_paginate %>
-<% else %>
-  <p>No Messages</p>
-<% end %>
+          <span class="input-group-btn send-message-btn">
+            <button class="btn btn-success " type="button">Send</button>
+          </span>
+        </div>
+      </div>
+
+    </div>
+    
+  </div>
 </body>
