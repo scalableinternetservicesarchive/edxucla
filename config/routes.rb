@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   get 'new_message', to: 'user_message#new_message'
   post 'new_message', to: 'user_message#new_message'
   post 'send_new_message', to: 'user_message#send_new_message'
+  get '/messages/:id', to: 'user_message#show'
 
 
   resources :users

@@ -1,25 +1,84 @@
 <% provide(:title, "Messages") %>
 <body class="default">
+  <% if @conversation_error == true %>
+    <h2>You do not have access to this conversation</h2>
+  <% else %>
   <div class="container messenger-container">
     <div class="row messenger-top-row">
         <div class="col-lg-3">
            <div class="col-lg-6 message-header">
             <div>
-              <h2 class="message-other-user"></h2>
+              <h2 class="message-other-user">
+                <% active_user = @users[@active_conversation] %>
+                <%= link_to active_user.name + " #" + active_user.id.to_s, active_user %>
+              </h2>
             </div>
           </div>
         </div>
     </div>
 
     <div class="row messenger-middle-row">
+      <% i = 0 %>
+        <div class="conversation-wrap col-lg-3">
+          <% while i < @conversations.count do %>
+            <div class="media conversation">
+              
+              <%= link_to "", :url => { :controller => "user_messages", :action => "switch_active_conversation" }, remote: true do %>
+                <span class="conversation-span"></span>
+              <% end %>
+              <a class="pull-left" href="#">
+                  <%= gravatar_for @users[i], size: 50 %>
+              </a>
+              <div class="media-body">
+                <h5 class="media-heading">
+                  <%= @users[i].name + " #" + @users[i].id.to_s %>
+                </h5>
+                <small>
+                  <% excerpt = @messages[i][-1][:message] %>
+                  <% if excerpt.size < 12 %>
+                    <%= excerpt %>
+                  <% else %>
+                    <%= excerpt[0,15] + "..." %>
+                  <% end %>
+                </small>
+              </div>
+            </div>
+             <% i += 1%>
+             <% end %>
+        </div>
+    
       
-      <div class="conversation-wrap col-lg-3">
-      </div>
     
       <div>
         <div class="message-wrap col-lg-8">
-          <div class="msg-wrap">
+          <% j = 0 %>
+          <div class="messages-wrap">
+            <% while j < @messages[@active_conversation].count do %>
+              <% message = @messages[@active_conversation][j] %>
+              <div class="msg-wrap">
+                <div class="media msg">
+                  <a class="pull-left" href="#">
+                    <%= gravatar_for @users[@active_conversation], size: 35 %>
+                  </a>
+                  <div class="media-body">
+                    <small class="pull-right time"><i class="fa fa-clock-o"></i>
+                      <%= message.created_at.strftime("%m/%d/%Y %I:%M%p") %>
+                    </small>
+
+                    <h5 class="media-heading">
+                      <%= @users[@active_conversation].name %>
+                    </h5>
+                    <small class="col-lg-10 message-text">
+                      <%= message.message %>
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <% j += 1 %>
+            <% end %>
           </div>
+
           <div class="send-wrap ">
               <textarea class="form-control send-message" rows="2" placeholder="Type a message"></textarea>
           </div>
@@ -31,6 +90,7 @@
       </div>
 
     </div>
-    
+
   </div>
+  <% end %>
 </body>

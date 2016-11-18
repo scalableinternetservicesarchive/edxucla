@@ -381,14 +381,25 @@ input{
 
 .conversation
 {
-  padding:5px;
+  padding:10px;
   border-bottom:1px solid #ddd;
   margin:0;
+  display: block;
+  position: relative;
+}
+
+.conversation-span{
+  position:absolute; 
+  width:100%;
+  height:100%;
+  top:0;
+  left: 0;
+
+  z-index: 1;
 }
 
 .message-wrap
 {
-
   padding:0;
   position: fixed;
   left: 25%;
@@ -396,21 +407,26 @@ input{
   height: 80%;
   overflow-y: auto;
 }
-.msg
-{
-  padding:5px;
-  /*border-bottom:1px solid #ddd;*/
-  margin:0;
-}
-.msg-wrap
-{
-  box-shadow: 0 0 3px #ddd;
 
-  padding:10px;
+.messages-wrap{
+  box-shadow: 0 0 3px #ddd;
   position: fixed;
   overflow-y: auto;
   height: 70%;
   width: 60%;
+}
+
+.msg
+{
+  padding:5px;
+  border-bottom:1px solid #ddd;
+  margin:0;
+}
+
+.msg-wrap
+{
+  padding:10px;
+  
 }
 
 .time
@@ -469,6 +485,7 @@ input{
 
 .message-text{
   padding: 0;
+  width: 100%;
 }
 
 .message-header{
