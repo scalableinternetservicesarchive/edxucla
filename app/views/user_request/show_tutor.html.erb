@@ -21,8 +21,8 @@
             <% if @counter == i %>
               <% j = 0 %>
               <% course_strings.each do |course_string| %>
-                <%= radio_button_tag(:course, course_users[j].course_id) %>
-                <%= label_tag(:course, course_string) %>
+                  <%= radio_button_tag(:course, course_users[j].course_id) %>
+                  <%= label_tag(:course, course_string) %>
                 <% j += 1 %>
               <% end %>
             <% end %>
@@ -32,7 +32,7 @@
           <% @counter += 1%>
         <% end %>
 
-        <%= text_area_tag "message", nil ,:size => "30x10", placeholder: "Message", class: "black"%>
+        <%= text_area_tag "message", nil ,:size => "30x10", placeholder: "Message", class: "input"%>
         <%= hidden_field_tag :user, @user.id %>
         <%= hidden_field_tag :type, 'tutor_request' %>
         <%= submit_tag "Send Request", class: "btn btn-primary" %>

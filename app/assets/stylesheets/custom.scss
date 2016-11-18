@@ -328,11 +328,11 @@ input {
   
 }
 
-input[type="radio"], label{
+.input[type="radio"], label{
       float:left;
      }
-input{
- clear:left;
+
+.input{
  color: #000000;
 }
 
@@ -363,4 +363,9 @@ input{
     overflow: auto;
     padding: 10px 20px;
   }
+}
+
+.noclient{
+  text-decoration: underline;
+  color: #F05F40;
 }

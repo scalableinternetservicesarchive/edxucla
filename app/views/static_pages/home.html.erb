@@ -17,7 +17,7 @@
           </li>
         <% end %>
       <% else %>
-        <p>You have no tutors</p>
+        <p>No tutors? <%= link_to "Find a tutor!", users_path, class: "noclient" %></p>
       <% end %>
     </ul>
 
@@ -36,7 +36,7 @@
         </li>
         <% end %>
       <% else %>
-        <p>You have no students</p>
+        <p>No students? <%= link_to "Find a student!", users_path, class: "noclient" %></p>
       <% end %>
     </ul>
 
@@ -50,7 +50,7 @@
       <h1 class="sub">Your learning and teaching connection</h1>
 
       <p class="sub">
-        Sign up today and get a private tutor just for you, or you can learn more about us from our <a href="#feature" class="page-scroll">features</a>
+        Sign up today and get a private tutor just for you, or you can learn more about us from our <a href="#feature" class="noclient">features</a>
       </p>
 
       <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
