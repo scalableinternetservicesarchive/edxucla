@@ -21,9 +21,13 @@
       <% i = 0 %>
         <div class="conversation-wrap col-lg-3">
           <% while i < @conversations.count do %>
-            <div class="media conversation">
+            <div class="media conversation" 
+            <% if i == @active_conversation%>
+             style= "background-color: #365899"
+            <% end %>
+             >
               
-              <%= link_to "", :url => { :controller => "user_messages", :action => "switch_active_conversation" }, remote: true do %>
+              <%= link_to message_path(@conversations[i].id) do %>
                 <span class="conversation-span"></span>
               <% end %>
               <a class="pull-left" href="#">

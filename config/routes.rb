@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   root 'static_pages#home'
   get  '/help',    to: 'static_pages#help'
   get  '/about',   to: 'static_pages#about'
-  get  '/messages', to: 'user_message#messages'
+  get  '/messages', to: 'user_message#messages', :as => 'messages'
   get  '/requests', to: 'user_request#requests'
   get  '/signup',  to: 'users#new'
   post '/signup',  to: 'users#create'
@@ -36,7 +36,9 @@ Rails.application.routes.draw do
   get 'new_message', to: 'user_message#new_message'
   post 'new_message', to: 'user_message#new_message'
   post 'send_new_message', to: 'user_message#send_new_message'
-  get '/messages/:id', to: 'user_message#show'
+  get '/messages/:id', to: 'user_message#show', :as => 'message'
+  get '/message/:id', to: 'user_message#show'
+
 
 
   resources :users
