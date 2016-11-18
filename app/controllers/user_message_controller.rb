@@ -1,5 +1,5 @@
 class UserMessageController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  #skip_before_action :verify_authenticity_token
   def messages
     @conversation_error = false;
     @conversation_error_message = "You do not have access to this conversation"
