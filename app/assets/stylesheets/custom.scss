@@ -39,6 +39,11 @@ $gray-medium-light: #eaeaea;
   background-size: cover;
   padding-top: 60px;
   color: #fff;
+  footer{
+        .hometext{
+      color: #F05F40;
+    }
+  }
   background-size: 100% 800px;
 }
 
@@ -301,12 +306,11 @@ input {
 
 .education{
   text-indent: 20px;
+  text-decoration: underline;
 }
 
 
-.hometext{
-  color: #F05F40;
-}
+
 
 .black{
   color: #000000;
