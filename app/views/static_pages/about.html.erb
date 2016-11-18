@@ -1,30 +1,141 @@
 <% provide(:title, "About") %>
 <%= stylesheet_link_tag "help.css" %>
-<body class="default">
+<body class="home">
 
-<br><br><h1>About</h1>
-<hr>
-<p>
-  edxUCLA is a site where students can connect with tutors, schedule meetings and learn different subjects. 
-  For questions on how to navigate the site, please refer to <%= link_to "Help", help_path %>. <br><br><br>
-</p>
+  <br><br>
+  <h1>Team Members</h1>
+  <hr><br>
+  <div id="teammember" class="container">
+    <div class="col-lg-3 col-md-6 text-center">
+      <div class="team-member">
+        <img class="img-responsive img-circle" src="/steven_hua.jpg">
+        <h3>Steven Hua</h3><br>
+      </div>
+    </div>
 
-  <div><h1>Team Members</h1>
-  <hr>
-  <table align="center">
-  <tr>
-    <th>Steven Hua</th>
-    <th>Jennifer Lin</th>
-    <th>Dau-Po Yu</th>
-    <th>Isaac Yeo En Jie</th>
-  </tr>
-  <tr>
-    <th><img id="profile" src="/steven_hua.jpg" alt="steven" height="160px" width="160px"></th>
-    <th><img id="profile" src="/jennifer_lin.jpg" alt="jennifer" height="160px" width="160px"></th>
-    <th><img id="profile" src="/dau_po_yu.jpg" alt="Paul" height="160px" width="160px"></th>
-    <th><img id="profile" src="/isaac_yeo_en_jie.jpg" alt="Isaac" height="160px" width="160px"></th>
-  </tr>
-  </table></div><br><br>
+    <div class="col-lg-3 col-md-6 text-center">
+      <div class="team-member">
+        <img class="img-responsive img-circle" src="/jennifer_lin.jpg">
+        <h3>Jennifer Lin</h3><br>
+      </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 text-center">
+      <div class="team-member">
+        <img class="img-responsive img-circle" src="/dau_po_yu.jpg">
+        <h3>Dau-Po Yu</h3><br>
+      </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 text-center">
+      <div class="team-member">
+        <img class="img-responsive img-circle" src="/isaac_yeo_en_jie.jpg">
+        <h3>Isaac Yeo En Jie</h3><br>
+      </div>
+    </div>
+  </div>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  
+  <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="black" style="font-family: Montserrat; font-weight: 700;">Our story</h1>
+                    <h4 class="section-subheading text-muted">See what we have accomplished over the course of 10 weeks</h4><br><br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="timeline">
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-responsive img-circle" src="newlightbulb.png" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="black" style="font-weight: 900;">SEP 30, 2016 </h4>
+                                    <h4 class="black">It started with an idea...</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">As college students, we all have experiences 
+                                    struggling with coursework. Knowing that students may not necessarily
+                                    be able to make it to office hours or that they may find professors 
+                                    intimidating, we decided that a web service that allows 
+                                    students to be either tutors or students, and learn from one another
+                                    to ace their classes would be helpful. Thus, the idea of edxUCLA is born...
+                                    
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <img class="img-responsive img-circle" src="newbeginning.png" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="black" style="font-weight: 900;">OCT 15 2016</h4>
+                                    <h4 class="black">Static Pages and Signup</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">The basic structure of our web service
+                                    has been setup, with minimal design and functionality of each 
+                                    page, including our home page, about and help page ...etc.  
+                                    In the future, we plan to improve the UI design and perhaps
+                                    add a logo. We will continue building up the functionalities one step 
+                                    at a time.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-responsive img-circle" src="search.png" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="black" style="font-weight: 900;">Nov 9 2016</h4>
+                                    <h4 class="black">Profile and Search</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">After logging in, users can now edit their
+                                    profile by adding their college information and classes they have 
+                                    taken. With our newly added search function, users can search by
+                                    course to find others that have taken courses that they may need 
+                                    help in.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <img class="img-responsive img-circle" src="newpaintbrush.png" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="black" style="font-weight: 900;">NOV 14 2016</h4>
+                                    <h4 class="black">Improve UI Design</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Our primary focus is to finish the functionalities of our web service.
+                                    Now that we're near the end of this quarter, we fixed the UI to enable a more pleasant experience
+                                    when using our web service. </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <br>
+                                <h2 style="color: white; font-weight: 700;">TO
+                                    <br>BE
+                                    <br>CONTINUED!</h2>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </body>
 
   
