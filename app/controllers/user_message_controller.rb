@@ -2,7 +2,8 @@ class UserMessageController < ApplicationController
   skip_before_action :verify_authenticity_token
   def messages
     @conversation_error = false;
-    
+    @conversation_error_message = "You do not have access to this conversation"
+
     @user = current_user
     if @current_user.nil?
       @conversation_error = true;
@@ -11,6 +12,13 @@ class UserMessageController < ApplicationController
 
     @conversations = Conversation.where('user_one = :sender OR user_two = :receiver' , sender: @user.id, receiver: @user.id)
     i = 0
+
+    if @conversations.empty?
+      @conversation_error = true;
+      @conversation_error_message = "You have no messages."
+      return
+    end
+
     messages = []
     users = []
 
@@ -36,7 +44,7 @@ class UserMessageController < ApplicationController
     conversation_id = params[:id]
     active_conversation = Conversation.find_by(id: params[:id])
     @conversation_error = false;
-    
+    @conversation_error_message = "You do not have access to this conversation"
     @active_conversation = 0
 
     if conversation_id.nil?
@@ -103,7 +111,9 @@ class UserMessageController < ApplicationController
       conversation_params[:user_two] = params[:user]
 
       #prevent race conditions
-      conversation = Conversation.safe_find_or_create_by(conversation_params)
+      #conversation = Conversation.safe_find_or_create_by(conversation_params)
+
+      conversation = Conversation.safe_where_or_create_by(conversation_params)
 
       message_params = {}
       message_params[:message] = params[:message]
@@ -127,7 +137,9 @@ class UserMessageController < ApplicationController
       conversation_params[:user_two] = params[:user]
 
       #prevent race conditions
-      conversation = Conversation.safe_find_or_create_by(conversation_params)
+      #conversation = Conversation.safe_find_or_create_by(conversation_params)
+
+      conversation = Conversation.safe_where_or_create_by(conversation_params)
 
       message_params = {}
       message_params[:message] = params[:message]

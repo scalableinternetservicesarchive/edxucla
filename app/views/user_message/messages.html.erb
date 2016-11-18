@@ -1,7 +1,9 @@
 <% provide(:title, "Messages") %>
 <body class="default">
   <% if @conversation_error == true %>
-    <h2>You do not have access to this conversation</h2>
+    <h2>
+      <%= @conversation_error_message %>
+    </h2>
   <% else %>
   <div class="container messenger-container">
     <div class="row messenger-top-row">
