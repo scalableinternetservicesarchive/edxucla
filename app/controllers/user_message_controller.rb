@@ -1,4 +1,5 @@
 class UserMessageController < ApplicationController
+  skip_before_action :verify_authenticity_token
   def messages
     @conversation_error = false;
     
@@ -39,6 +40,12 @@ class UserMessageController < ApplicationController
     @active_conversation = 0
 
     if conversation_id.nil?
+      @conversation_error = true
+      render 'messages'
+      return
+    end
+
+    if active_conversation.nil?
       @conversation_error = true
       render 'messages'
       return
@@ -86,8 +93,31 @@ class UserMessageController < ApplicationController
     @user = User.find(params[:user])
   end
 
-  def send_new_message
+  def send_message
+    unless params[:message].empty?
+      curr_user_id = current_user.id
 
+      #create conversation or find it if it already exists
+      conversation_params = {}
+      conversation_params[:user_one] = curr_user_id
+      conversation_params[:user_two] = params[:user]
+
+      #prevent race conditions
+      conversation = Conversation.safe_find_or_create_by(conversation_params)
+
+      message_params = {}
+      message_params[:message] = params[:message]
+      message_params[:sender] = curr_user_id
+      message_params[:receiver] = params[:user]
+      message_params[:conversation_id] = conversation.id
+
+      user_message = UserMessage.create(message_params)
+    else
+      #empty message
+    end
+  end
+
+  def send_new_message
     unless params[:message].empty?
       curr_user_id = current_user.id
 
@@ -111,7 +141,7 @@ class UserMessageController < ApplicationController
       redirect_to User.find(params[:user])
     else
       #TODO: handle empty message
-      flash[:success] = "Message Sent"
+      flash[:success] = "Empty Message Sent"
       redirect_to User.find(params[:user])
     end
   end

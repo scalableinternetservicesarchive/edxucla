@@ -51,18 +51,17 @@
              <% end %>
         </div>
     
-      
-    
       <div>
         <div class="message-wrap col-lg-8">
           <% j = 0 %>
           <div class="messages-wrap">
             <% while j < @messages[@active_conversation].count do %>
               <% message = @messages[@active_conversation][j] %>
+              <% other_user = @users[@active_conversation] %>
               <div class="msg-wrap">
                 <div class="media msg">
                   <a class="pull-left" href="#">
-                    <%= gravatar_for @users[@active_conversation], size: 35 %>
+                    <%= gravatar_for other_user, size: 35 %>
                   </a>
                   <div class="media-body">
                     <small class="pull-right time"><i class="fa fa-clock-o"></i>
@@ -70,7 +69,11 @@
                     </small>
 
                     <h5 class="media-heading">
-                      <%= @users[@active_conversation].name %>
+                      <% if message.sender == other_user.id %>
+                        <%= other_user.name + " #" + other_user.id.to_s %>
+                      <% else %>
+                        <%= @user.name + " #" + @user.id.to_s%>
+                      <% end %>
                     </h5>
                     <small class="col-lg-10 message-text">
                       <%= message.message %>
@@ -84,12 +87,17 @@
           </div>
 
           <div class="send-wrap ">
-              <textarea class="form-control send-message" rows="2" placeholder="Type a message"></textarea>
+            <%= form_tag("/send_message", remote: true) do %>
+              <%= text_area_tag "message", nil ,:size => "30x2", placeholder: "Type a message", class: "black form-control send-message" %>
+              <%= hidden_field_tag :user, active_user.id %>
+
+              <span class="input-group-btn send-message-btn">
+                <%= submit_tag "Send", :user => active_user.id, class: "btn btn-success", type: "button", onclick: "this.form.submit();" %>
+              </span>
+            <% end %>
+
           </div>
 
-          <span class="input-group-btn send-message-btn">
-            <button class="btn btn-success " type="button">Send</button>
-          </span>
         </div>
       </div>
 
