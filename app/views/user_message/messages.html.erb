@@ -24,7 +24,7 @@
         <div class="conversation-wrap col-lg-3">
           <% while i < @conversations.count do %>
             <div class="media conversation" 
-            <% if i == @active_conversation%>
+            <% if i == @active_conversation %>
              style= "background-color: #365899"
             <% end %>
              >
@@ -56,7 +56,7 @@
       <div>
         <div class="message-wrap col-lg-8">
           <% j = 0 %>
-          <div class="messages-wrap">
+          <div class="messages-wrap" id="messages-wrap">
             <% while j < @messages[@active_conversation].count do %>
               <% message = @messages[@active_conversation][j] %>
               <% other_user = @users[@active_conversation] %>
@@ -89,12 +89,12 @@
           </div>
 
           <div class="send-wrap ">
-            <%= form_tag("/send_message", remote: true) do %>
+            <%= form_tag("/send_message", remote: true, id: "message-submission") do %>
               <%= text_area_tag "message", nil ,:size => "30x2", placeholder: "Type a message", class: "black form-control send-message" %>
-              <%= hidden_field_tag :user, active_user.id %>
+              <%= hidden_field_tag :user, active_user.id, class: "message-user" %>
 
               <span class="input-group-btn send-message-btn">
-                <%= submit_tag "Send", :user => active_user.id, class: "btn btn-success", type: "button", onclick: "this.form.submit();" %>
+                <%= submit_tag "Send", :user => active_user.id, class: "btn btn-success", type: "button", id: "message-submit", onclick: "this.form.submit();" %>
               </span>
             <% end %>
 
