@@ -93,7 +93,7 @@
           <div class="send-wrap ">
             <%= form_tag("/send_message", remote: true, id: "message-submission") do %>
               <%= text_area_tag "message", nil ,:size => "30x2", placeholder: "Type a message", class: "black form-control send-message", id: "send-message" %>
-              <%= hidden_field_tag :user, active_user.id, class: "message-user" %>
+              <%= hidden_field_tag :user, active_user.id, class: "message-user", id: "message-other-user-id" %>
 
               <%= hidden_field_tag :user_id, @user.id, class: "message-user", id: "message-user-id" %>
 

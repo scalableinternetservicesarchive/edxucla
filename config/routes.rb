@@ -41,6 +41,14 @@ Rails.application.routes.draw do
   get '/message/:id', to: 'user_message#show'
 
 
+  class OnlyAjaxRequest
+    def matches?(request)
+      request.xhr?
+    end
+  end
+
+  match '/fetch_messages' => 'user_message#fetch_messages', :constraints => OnlyAjaxRequest.new, via: [:get]
+
 
   resources :users
   resources :password_resets,     only: [:new, :create, :edit, :update]

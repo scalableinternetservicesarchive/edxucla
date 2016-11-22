@@ -37,6 +37,55 @@ class UserMessageController < ApplicationController
     @active_conversation = 0
   end
 
+  def fetch_messages
+    # data needed: check if new conversations
+    # if so, add that data into the left column, only need to fetch
+    # user gravatar, user name/id, and most recent message
+    # check if any new user_messages
+    # if there are new messages in this conversation
+    # append
+    # if there are new messages in other conversations, show user
+    # something to let them know there are unread messages in another
+    # conversation
+
+    #currently queries only current conversation messages
+
+    other_user_id = params[:other_user_id]
+    user = current_user
+    time = Time.now - 5.seconds
+
+    messages = UserMessage.where('updated_at > :time and sender = :sender and receiver = :receiver', time: time, sender: other_user_id, receiver: user.id)
+
+    # conversations = Conversation.where('updated_at > :time and user_one = :sender or user_two = :receiver' , time: time, sender: user.id, receiver: user.id)
+
+    response = []
+
+    messages.each do |message|
+      response.push({
+        id: message.id,
+        message: message.message,
+        sender: message.sender,
+        receiver: message.receiver,
+        created_at: message.created_at,
+        updated_at: message.updated_at,
+        conversation_id: message.conversation_id
+        })
+    end
+
+    # conversations.each do |conversation|
+    #   response.push({
+    #     id: conversation.id,
+    #     user_one: conversation.user_one,
+    #     user_two: conversation.user_two,
+    #     created_at: conversation.created_at,
+    #     updated_at: conversation.updated_at
+    #     })
+    # end
+
+    # puts @conversations.inspect
+    render json: response
+  end
+
   def show
     #error if user isnt one of the users in this conversation
 

@@ -59,4 +59,25 @@ var submit_ready = function(){
   })
 }
 
+var checkForMessages = function(){
+  var other_user = $('#message-other-user-id')[0];
+
+  setInterval(function(){
+    $.ajax({
+    url: "/fetch_messages",
+    type: 'GET',
+    data: { other_user_id: other_user.value},
+      success: function(response, status, xhr) {
+        response.forEach(function(conversation) {
+          console.log(conversation)
+        });
+      },
+      error: function(xhr, status, error) {
+        console.log(xhr, status, error);
+      },
+    });
+  }, 5000)
+}
+
 $(document).on('turbolinks:load', submit_ready);
+$(document).on('turbolinks:load', checkForMessages);
