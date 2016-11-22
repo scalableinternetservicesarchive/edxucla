@@ -66,7 +66,7 @@
                     <%= gravatar_for other_user, size: 35 %>
                   </a>
                   <div class="media-body">
-                    <small class="pull-right time"><i class="fa fa-clock-o"></i>
+                    <small class="pull-right time">
                       <%= message.created_at.strftime("%m/%d/%Y %I:%M%p") %>
                     </small>
 
@@ -88,10 +88,15 @@
             <% end %>
           </div>
 
+          <% gravatar = get_gravatar_for @user, size: 35 %>
+
           <div class="send-wrap ">
             <%= form_tag("/send_message", remote: true, id: "message-submission") do %>
-              <%= text_area_tag "message", nil ,:size => "30x2", placeholder: "Type a message", class: "black form-control send-message" %>
-              <%= hidden_field_tag :user, active_user.id, class: "message-user" %>
+              <%= text_area_tag "message", nil ,:size => "30x2", placeholder: "Type a message", class: "black form-control send-message", id: "send-message" %>
+              <%= hidden_field_tag :user, @user.id, class: "message-user", id: "message-user-id" %>
+              <%= hidden_field_tag :user_name, @user.name, class: "message-user", id: "message-user-name" %>
+
+              <%= hidden_field_tag :gravatar_url, gravatar, class: "message-user", id: "message-user-gravatar" %>
 
               <span class="input-group-btn send-message-btn">
                 <%= submit_tag "Send", :user => active_user.id, class: "btn btn-success", type: "button", id: "message-submit", onclick: "this.form.submit();" %>
