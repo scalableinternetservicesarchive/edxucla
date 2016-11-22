@@ -67,7 +67,7 @@
                   </a>
                   <div class="media-body">
                     <small class="pull-right time">
-                      <%= message.created_at.strftime("%m/%d/%Y %I:%M%p") %>
+                      <%= message.created_at.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %I:%M%p") %>
                     </small>
 
                     <h5 class="media-heading">
@@ -93,7 +93,10 @@
           <div class="send-wrap ">
             <%= form_tag("/send_message", remote: true, id: "message-submission") do %>
               <%= text_area_tag "message", nil ,:size => "30x2", placeholder: "Type a message", class: "black form-control send-message", id: "send-message" %>
-              <%= hidden_field_tag :user, @user.id, class: "message-user", id: "message-user-id" %>
+              <%= hidden_field_tag :user, active_user.id, class: "message-user" %>
+
+              <%= hidden_field_tag :user_id, @user.id, class: "message-user", id: "message-user-id" %>
+
               <%= hidden_field_tag :user_name, @user.name, class: "message-user", id: "message-user-name" %>
 
               <%= hidden_field_tag :gravatar_url, gravatar, class: "message-user", id: "message-user-gravatar" %>

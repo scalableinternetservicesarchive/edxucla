@@ -1,6 +1,5 @@
 var submit_ready = function(){
   var clearTextArea = function(){
-    console.log("clear");
     $('#send-message').val('');
   }
 
@@ -14,11 +13,21 @@ var submit_ready = function(){
     var month = dateObj.getUTCMonth() + 1;
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
-    var hours = dateObj.getUTCHours();
-    var minutes = dateObj.getUTCMinutes();
-    var seconds = dateObj.getUTCSeconds();
+    var hours = dateObj.getHours()
+    var minutes = dateObj.getMinutes();
 
-    var newDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+    var meridiem = "AM";
+    if (hours >= 12){
+      meridiem = "PM";
+      hours = (hours % 12);
+    }
+
+    if (hours == 0){
+      hours = 12;
+    }
+
+    var newDate = month + "/" + day + "/" + year + " " + hours + ":" +
+      (minutes < 10 ? '0' : '') + minutes + meridiem;
 
     var $div1 = $("<div>", {"class": "msg-wrap"});
     var $div2 = $("<div>", {"class": "media msg"});
