@@ -1,3 +1,63 @@
+<script>
+  var checkForUser = function(){
+    var header_profile = $('#header-profile')[0];
+
+    if(header_profile == undefined){
+      //no user logged in
+      setTimeout(function(){
+        checkForUser();
+      }, 5000);
+    }
+    else{
+      headerCheckForMessages();
+    }
+  }
+
+  var updateMessagesBadge = function(num){
+    var messages_badge = $('#badge-counter');
+
+    if(messages_badge[0] == undefined){
+      if(num > 0){
+        //no badge, positive count
+        var header_message = $('#header-message');
+
+        var $span = $("<span>", {"class": "badge", "id": "badge-counter"}).text(num);
+        header_message.append($span);
+      }
+    }
+    else{
+      //badge exists
+      if(num > 0){
+        messages_badge[0].textContent = parseInt(messages_badge[0].textContent) + num;
+      }
+    }
+  }
+
+  var headerCheckForMessages = function(){
+    setTimeout(function(){
+      var header_message = $('#header-message')[0];
+
+      $.ajax({
+        url: "/fetch_messages_header",
+        type: 'GET',
+        success: function(response, status, xhr) {
+          console.log("success");
+          console.log(response)
+          updateMessagesBadge(response);
+          setTimeout(function(){
+            headerCheckForMessages();
+          },5000)
+        },
+        error: function(xhr, status, error) {
+          console.log(xhr, status, error);
+        },
+      });
+    }, 5000);
+  }
+
+  $(document).on('turbolinks:load', checkForUser);
+</script>
+
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
     <%= link_to "edxUCLA", root_path, id: "logo" %>
@@ -35,8 +95,8 @@
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Home", root_path %></li>
 	      <% if logged_in? %>
-          <li><%= link_to "Profile", current_user %></li>
-          <li><%= link_to "Messages", messages_path %></li>
+          <li><%= link_to "Profile", current_user, id: "header-profile" %></li>
+          <li><%= link_to "Messages", messages_path, id: "header-message" %></li>
           <li><%= link_to "Notifications", requests_path %></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

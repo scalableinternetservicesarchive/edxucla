@@ -60,23 +60,39 @@ var submit_ready = function(){
 }
 
 var checkForMessages = function(){
-  var other_user = $('#message-other-user-id')[0];
 
-  setInterval(function(){
-    $.ajax({
-    url: "/fetch_messages",
-    type: 'GET',
-    data: { other_user_id: other_user.value},
-      success: function(response, status, xhr) {
-        response.forEach(function(conversation) {
-          console.log(conversation)
-        });
-      },
-      error: function(xhr, status, error) {
-        console.log(xhr, status, error);
-      },
-    });
-  }, 5000)
+  //if page is messages do the following
+  //else if there is a new message, notify the user in the messages icon
+
+  setTimeout(function(){
+    var other_user = $('#message-other-user-id')[0];
+    console.log(other_user)
+
+    if (other_user == undefined){
+
+    }
+    else{
+      $.ajax({
+        url: "/fetch_messages",
+        type: 'GET',
+        data: { other_user_id: other_user.value},
+        success: function(response, status, xhr) {
+          console.log("success");
+          response.forEach(function(message) {
+            console.log(message)
+          });
+          setTimeout(function(){
+            checkForMessages();
+          },5000)
+        },
+        error: function(xhr, status, error) {
+          console.log(xhr, status, error);
+        },
+      });
+    }
+  }, 5000);
+
+
 }
 
 $(document).on('turbolinks:load', submit_ready);

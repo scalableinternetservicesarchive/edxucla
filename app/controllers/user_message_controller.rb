@@ -86,6 +86,22 @@ class UserMessageController < ApplicationController
     render json: response
   end
 
+  def fetch_messages_header
+    user = current_user
+    if user.nil?
+      return
+    end
+
+    time = Time.now - 5.seconds
+
+    messages = UserMessage.where('updated_at > :time and receiver = :receiver', time: time, receiver: user.id)
+
+    response = messages.count
+
+    render json: response
+  end
+
+
   def show
     #error if user isnt one of the users in this conversation
 
