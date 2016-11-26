@@ -61,12 +61,36 @@ var submit_ready = function(){
 
 var checkForMessages = function(){
 
-  //if page is messages do the following
-  //else if there is a new message, notify the user in the messages icon
+  var appendOtherMessage = function(message, time){
+    var message_user_id = $('#message-other-user-id')[0];
+    var message_user_name = $('#message-other-user-name')[0];
+    var gravatar = $('#message-other-user-gravatar')[0];
+
+    var $div1 = $("<div>", {"class": "msg-wrap"});
+    var $div2 = $("<div>", {"class": "media msg"});
+
+    var $a = $("<a>", {"class": "pull-left", "href": "#"});
+    var $img = $("<img>", {"class": "gravatar", "src": gravatar.value});
+
+    $a.append($img);
+
+    var $div3 = $("<div>", {"class": "media-body"});
+    var $small1 = $("<small>", {"class": "pull-right time"}).text(time);
+    var $h5 = $("<h5>", {"class": "media-heading"}).text(message_user_name.value + " #" + message_user_id.value);
+    var $small2= $("<small>", {"class": "col-lg-10 message-text"}).text(message);
+
+    $div3.append($small1).append($h5).append($small2);
+    $div2.append($a).append($div3);
+    $div1.append($div2)
+
+    $('#messages-wrap').append($div1);
+  }
+
 
   setTimeout(function(){
     var other_user = $('#message-other-user-id')[0];
-    console.log(other_user)
+    var last_message_time = $('#message-last-time')[0];
+    var last_message_id = $('#message-last-id')[0];
 
     if (other_user == undefined){
 
@@ -75,11 +99,18 @@ var checkForMessages = function(){
       $.ajax({
         url: "/fetch_messages",
         type: 'GET',
-        data: { other_user_id: other_user.value},
+        data: {
+          other_user_id: other_user.value,
+          last_message_time: last_message_time.value,
+          last_message_id: last_message_id.value
+        },
         success: function(response, status, xhr) {
           console.log("success");
           response.forEach(function(message) {
             console.log(message)
+            last_message_time.value = message.created_at_time;
+            last_message_id.value = message.id;
+            appendOtherMessage(message.message, message.created_at);
           });
           setTimeout(function(){
             checkForMessages();

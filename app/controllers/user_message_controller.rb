@@ -51,25 +51,30 @@ class UserMessageController < ApplicationController
     #currently queries only current conversation messages
 
     other_user_id = params[:other_user_id]
-    user = current_user
-    time = Time.now - 5.seconds
+    last_message_time = Time.at(params[:last_message_time].to_i).utc
+    last_message_id = params[:last_message_id]
 
-    messages = UserMessage.where('updated_at > :time and sender = :sender and receiver = :receiver', time: time, sender: other_user_id, receiver: user.id)
+    user = current_user
+
+    messages = UserMessage.where('updated_at > :time and sender = :sender and receiver = :receiver', time: last_message_time, sender: other_user_id, receiver: user.id)
 
     # conversations = Conversation.where('updated_at > :time and user_one = :sender or user_two = :receiver' , time: time, sender: user.id, receiver: user.id)
 
     response = []
 
     messages.each do |message|
-      response.push({
-        id: message.id,
-        message: message.message,
-        sender: message.sender,
-        receiver: message.receiver,
-        created_at: message.created_at,
-        updated_at: message.updated_at,
-        conversation_id: message.conversation_id
-        })
+      if message.id != last_message_id.to_i
+        response.push({
+          id: message.id,
+          message: message.message,
+          sender: message.sender,
+          receiver: message.receiver,
+          created_at_time: message.created_at.to_i,
+          created_at: message.created_at.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %I:%M%p"),
+          updated_at: message.updated_at.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %I:%M%p"),
+          conversation_id: message.conversation_id
+          })
+      end
     end
 
     # conversations.each do |conversation|

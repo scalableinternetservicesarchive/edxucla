@@ -5,6 +5,7 @@
       <%= @conversation_error_message %>
     </h2>
   <% else %>
+  <% last_message = [] %>
   <div class="container messenger-container">
     <div class="row messenger-top-row">
         <div class="col-lg-3">
@@ -86,20 +87,31 @@
 
               <% j += 1 %>
             <% end %>
+            <% last_message = @messages[@active_conversation][j-1] %>
           </div>
 
-          <% gravatar = get_gravatar_for @user, size: 35 %>
+          <% gravatar_user = get_gravatar_for @user, size: 35 %>
+          <% gravatar_other_user = get_gravatar_for active_user, size: 35%>
 
           <div class="send-wrap ">
             <%= form_tag("/send_message", remote: true, id: "message-submission") do %>
               <%= text_area_tag "message", nil ,:size => "30x2", placeholder: "Type a message", class: "black form-control send-message", id: "send-message" %>
               <%= hidden_field_tag :user, active_user.id, class: "message-user", id: "message-other-user-id" %>
 
+              <%= hidden_field_tag :active_user_name, active_user.name, class: "message-user", id: "message-other-user-name" %>
+
+              <%= hidden_field_tag :active_user_gravatar, gravatar_other_user, class: "message-user", id: "message-other-user-gravatar" %>
+
               <%= hidden_field_tag :user_id, @user.id, class: "message-user", id: "message-user-id" %>
 
               <%= hidden_field_tag :user_name, @user.name, class: "message-user", id: "message-user-name" %>
 
-              <%= hidden_field_tag :gravatar_url, gravatar, class: "message-user", id: "message-user-gravatar" %>
+              <%= hidden_field_tag :gravatar_url, gravatar_user, class: "message-user", id: "message-user-gravatar" %>
+
+              <%= hidden_field_tag :last_time, last_message.created_at.to_i, class: "message-user", id: "message-last-time" %>
+
+              <%= hidden_field_tag :last_message_id, last_message.id, class: "message-user", id: "message-last-id" %>
+
 
               <span class="input-group-btn send-message-btn">
                 <%= submit_tag "Send", :user => active_user.id, class: "btn btn-success", type: "button", id: "message-submit", onclick: "this.form.submit();" %>
