@@ -1,4 +1,9 @@
-var submit_ready = function(){
+var scrollDown = function(){
+  var messages_wrap = $('#messages-wrap')[0];
+  messages_wrap.scrollTop = messages_wrap.scrollHeight;
+}
+
+var submitReady = function(){
   var clearTextArea = function(){
     $('#send-message').val('');
   }
@@ -126,5 +131,6 @@ var checkForMessages = function(){
 
 }
 
-$(document).on('turbolinks:load', submit_ready);
+$(document).on('turbolinks:load', submitReady);
+$(document).on('turbolinks:load', scrollDown);
 $(document).on('turbolinks:load', checkForMessages);
