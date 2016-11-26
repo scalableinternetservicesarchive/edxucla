@@ -118,10 +118,8 @@ class UsersController < ApplicationController
     @education_users = EducationUser.where(user_id: current_user.id)
 
     eid = params[:eid]
-    @@eid = eid
 
     @education = Education.find_by(id: eid)
-    @@e_alias = @education.alias
 
     @course_users = CourseUser.where(user_id: current_user.id).where(education_id: eid)
 
@@ -131,21 +129,16 @@ class UsersController < ApplicationController
   end
 
   def update_education
-    e_alias=@@e_alias
-    eid=@@eid
-
-    course_user_params = params.require(:course_user).permit(:course_name, :course_alias, :department)
+    course_user_params = params.require(:course_user).permit(:course_name, :course_alias, :education_id, :education_alias, :department)
     course_user_params[:user_id] = current_user.id
-    course_user_params[:education_alias] = e_alias
-    course_user_params[:education_id] = eid
 
     course_params = params.require(:course).permit(:department)
 
     if !course_user_params[:course_name].blank?
-      @course = Course.find_by(education_id: eid, name: course_user_params[:course_name])
+      @course = Course.find_by(education_id: course_user_params[:education_id], name: course_user_params[:course_name])
 
       if @course.blank?
-        @course = Course.create(education_id: @@eid, name: course_user_params[:course_name], alias: course_user_params[:course_alias], department: course_params[:department])
+        @course = Course.create(education_id: course_user_params[:education_id], name: course_user_params[:course_name], alias: course_user_params[:course_alias], department: course_params[:department])
       end
 
       course_user_params[:course_id] = @course.id

@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/home/ec2-user/opt/tsung-1.5.0/share/tsung/tsung-1.0.dtd">
+<tsung loglevel="notice" version="1.0">
+
+  <!-- Client side setup -->
+  <clients>
+    <client host="localhost" use_controller_vm="true" maxusers='15000'/>
+  </clients>
+
+  <!-- Server side setup -->
+  <servers>
+    <server host="" port="80" type="tcp"></server>
+  </servers>
+
+
+  <load>
+    <arrivalphase phase="1" duration="30" unit="second">
+      <users arrivalrate="1" unit="second"></users>
+    </arrivalphase>
+    <!--<arrivalphase phase="2" duration="30" unit="second">
+      <users arrivalrate="2" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="3" duration="30" unit="second">
+      <users arrivalrate="4" unit="second"></users>
+    </arrivalphase>-->
+  </load>
+
+  <options>
+    <!-- Set connection timeout to 2 seconds -->
+    <option name="global_ack_timeout" value="2000"></option>
+
+    <option type="ts_http" name="user_agent">
+      <user_agent probability="100">Mozilla/5.0 (Windows; U; Windows NT 5.2; fr-FR; rv:1.7.8) Gecko/20050511 Firefox/1.0.4</user_agent>
+    </option>
+  </options>
+
+  <sessions>
+    <!-- Tutor -->
+    <session name="tutor-session" probability="0" type="ts_http">
+
+      <request>
+        <http url='/' version='1.1' method='GET'></http>
+      </request>
+
+      <request>
+        <http url='/signup' version='1.1' method='GET'></http>
+      </request>
+
+      <setdynvars sourcetype="random_string" length="13">
+        <var name="rndstring1" />
+      </setdynvars>
+
+      <setdynvars sourcetype="random_number" start="1" end="200">
+        <var name="course_number" />
+      </setdynvars>
+
+      <!-- wait for up to 2 seconds -->
+      <thinktime value="2" random="true"></thinktime>
+
+      <!-- Sign up a new user -->
+      <request subst="true">
+        <http url='/signup' version='1.1' method='POST'
+          contents="user%5Bname%5D=%%_rndstring1%%&amp;user%5Bemail%5D=%%_rndstring1%%%40example.com&amp;user%5Bpassword%5D=foobar&amp;user%5Bpassword_confirmation%5D=foobar&amp;commit=Create+my+account"></http>
+      </request>
+
+      <!-- wait for up to 2 seconds -->
+      <thinktime value="2" random="true"></thinktime>
+
+      <!-- Edit Profile -->
+      <request>
+        <http url='/edit_profile' version='1.1' method='GET'></http>
+      </request>
+
+      <!-- wait for up to 2 seconds -->
+      <thinktime value="2" random="true"></thinktime>
+
+      <!-- Add Education-->
+      <request subst="true">
+        <http url='/add_education' version='1.1' method='POST'
+          contents="education%5Bname%5D=university+of+california+los+angeles&amp;education%5Balias%5D=ucla&amp;commit=Add+education"></http>
+      </request>
+
+      <request>
+        <http url='/edit_profile' version='1.1' method='GET'></http>
+      </request>
+
+      <!-- wait for up to 2 seconds -->
+      <thinktime value="2" random="true"></thinktime>
+
+      <request>
+        <http url='/edit_profile?eid=1' version='1.1' method='GET'></http>
+      </request>
+
+      <!-- wait for up to 2 seconds -->
+      <thinktime value="2" random="true"></thinktime>
+
+      <!-- Add course to education -->
+      <request subst="true">
+        <http url='/update_education' version='1.1' method='POST'
+          contents="course_user%5Bcourse_name%5D=computer+science+%%_course_number%%&amp;course_user%5Bcourse_alias%5D=cs%%_course_number%%&amp;course%5Bdepartment%5D=computer+science&amp;commit=Add+Course"></http>
+      </request>
+
+    </session>
+
+    <session name="student-session" probability="100" type="ts_http">
+      <request>
+        <http url='/' version='1.1' method='GET'></http>
+      </request>
+
+      <request>
+        <http url='/signup' version='1.1' method='GET'></http>
+      </request>
+
+      <setdynvars sourcetype="random_string" length="13">
+        <var name="rndstring1" />
+      </setdynvars>
+
+      <setdynvars sourcetype="random_number" start="1" end="200">
+        <var name="course_number" />
+      </setdynvars>
+
+      <setdynvars sourcetype="random_number" start="1" end="200">
+        <var name="course_number2" />
+      </setdynvars>
+
+      <!-- wait for up to 2 seconds -->
+      <thinktime value="2" random="true"></thinktime>
+
+      <!-- Sign up a new user -->
+      <request subst="true">
+        <http url='/signup' version='1.1' method='POST'
+          contents="user%5Bname%5D=%%_rndstring1%%&amp;user%5Bemail%5D=%%_rndstring1%%%40example.com&amp;user%5Bpassword%5D=foobar&amp;user%5Bpassword_confirmation%5D=foobar&amp;commit=Create+my+account"></http>
+      </request>
+
+      <!-- wait for up to 2 seconds -->
+      <thinktime value="2" random="true"></thinktime>
+
+      <!-- Search for a tutor by course type-->
+      <request subst="true">
+        <dyn_variable name="course_url" re='&lt;li&gt;\s*&lt;a href="(.*)">computer science' ></dyn_variable>
+        <http url='/search?type=Course&amp;input=cs%%_course_number%%' version='1.1' method='GET'></http>
+      </request>
+
+      <request subst="true">
+        <dyn_variable name="user_id" re='&lt;a href="/users/([0-9]*)"&gt;' ></dyn_variable>
+        <http url='%%_course_url%%' version='1.1' method='GET'></http>
+      </request>
+
+      <request subst="true">
+        <http url='/users/%%_user_id%%' version='1.1' method='GET'></http>
+      </request>
+
+      <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
+          io:format([126, $p, 126, $n, 126, $n], [DynVars]),
+          ok end.">
+          <var name="dump" />
+      </setdynvars>
+
+    </session>
+
+
+
+  </sessions>
+</tsung>
