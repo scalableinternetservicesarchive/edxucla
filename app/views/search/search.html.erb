@@ -10,14 +10,16 @@
         <% if @search_result_type == "courses" %>
           <% while i < @search.count do %>
             <% course = @search[i] %>
-            <li>
-              <%= link_to course.name, :type => "User-courses", :input => course.id %>
-              <%= "("+course.alias+")" %>
-              <br>
-              <%= link_to @educations[i].name, :type => "Courses-education", :input => @educations[i].id %>
-              <br>
-              <%= link_to "Department: " +course.department, :type => "Courses-department", :input => course.department %>
-            </li>
+            <% unless course.nil? %>
+              <li>
+                <%= link_to course.name, :type => "User-courses", :input => course.id %>
+                <%= "("+course.alias+")" %>
+                <br>
+                <%= link_to @educations[i].name, :type => "Courses-education", :input => @educations[i].id if @educations[i] %>
+                <br>
+                <%= link_to "Department: " +course.department, :type => "Courses-department", :input => course.department %>
+              </li>
+            <% end %>
             <% i +=1 %>
           <% end %>
         <% elsif @search_result_type == "educations" %>
