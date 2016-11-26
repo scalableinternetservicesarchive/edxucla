@@ -151,6 +151,10 @@ footer {
   padding-top: 5px;
   border-top: 1px solid #eaeaea;
   color: #F05F40;
+  position: fixed;
+  bottom: 0%;
+  width: 80%;
+  left: 10%;
 }
 
 /*footer a {
@@ -455,3 +459,146 @@ input {
         transform: rotate(180deg);
         color: #454444;
     }
+}
+/**************************************/
+/* User Messages */
+.conversation-wrap
+{
+  box-shadow: -2px 0 3px #ddd;
+  padding:0;
+  max-height: 80%;
+  overflow: auto;
+  position: fixed;
+  left: 10%;
+  width: 15%;
+}
+
+.conversation
+{
+  padding:10px;
+  border-bottom:1px solid #ddd;
+  margin:0;
+  display: block;
+  position: relative;
+}
+
+.conversation-span{
+  position:absolute; 
+  width:100%;
+  height:100%;
+  top:0;
+  left: 0;
+
+  z-index: 1;
+}
+
+.message-wrap
+{
+  padding:0;
+  position: fixed;
+  left: 25%;
+  width: 60%;
+  height: 80%;
+  overflow-y: auto;
+}
+
+.messages-wrap{
+  box-shadow: 0 0 3px #ddd;
+  position: fixed;
+  overflow-y: auto;
+  height: 70%;
+  width: 60%;
+}
+
+.msg
+{
+  padding:5px;
+  border-bottom:1px solid #ddd;
+  margin:0;
+}
+
+.msg-wrap
+{
+  padding:10px;
+  
+}
+
+.time
+{
+  color:#bfbfbf;
+}
+
+.send-wrap
+{
+  /*border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;*/
+  padding:10px;
+  /*background: #f8f8f8;*/
+  position: fixed;
+  bottom: 5%;
+  width: 57%;
+}
+
+.send-message
+{
+  resize: none;
+}
+
+.highlight
+{
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+}
+
+.send-message-btn
+{
+  position: fixed;
+  bottom: 8%;
+  left: 82%;
+  width: 60px;
+}
+
+.msg-wrap .media-heading
+{
+  /*color:#003bb3;*/
+  font-weight: 700;
+}
+
+.media-heading{
+  text-align: left;
+}
+
+.msg-date
+{
+  background: none;
+  text-align: center;
+  color:#aaa;
+  border:none;
+  box-shadow: none;
+  border-bottom: 1px solid #ddd;
+}
+
+.message-text{
+  padding: 0;
+  width: 100%;
+}
+
+.message-header{
+  display: inline-block;
+  position: fixed;
+}
+
+.message-other-user{
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  position: fixed;
+  left: 26%;
+}
+
+
+.messenger-middle-row{
+  position: fixed;
+  top: 100px;
+}
+

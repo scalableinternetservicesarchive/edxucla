@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  skip_before_filter :verify_authenticity_token
+  #skip_before_filter :verify_authenticity_token
   def search
     # TODO: Add input sanitation
     @search_result_type = ""

@@ -1,0 +1,20 @@
+<% provide(:title, 'Request') %>
+<body class="default">
+  <br><br><h1>New Message</h1>
+
+  <% unless @user.nil? %>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <h3><%= "Message for " + @user.name + " #" +@user.id.to_s %></h3>
+
+        <%= form_tag("/send_new_message", method: "post") do %>
+          <%= text_area_tag "message", nil ,:size => "30x10", placeholder: "Message", class: "black form-control" %>
+          <%= hidden_field_tag :user, @user.id %>
+          <%= submit_tag "Send Message", :user => @user.id, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <p>No such user exists</p>
+  <% end %>
+</body>

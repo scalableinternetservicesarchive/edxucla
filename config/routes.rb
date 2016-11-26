@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   root 'static_pages#home'
   get  '/help',    to: 'static_pages#help'
   get  '/about',   to: 'static_pages#about'
-  get  '/chat', to: 'static_pages#chat'
+  get  '/messages', to: 'user_message#messages', :as => 'messages'
   get  '/requests', to: 'user_request#requests'
   get  '/signup',  to: 'users#new'
   post '/signup',  to: 'users#create'
@@ -32,6 +32,24 @@ Rails.application.routes.draw do
   post 'send_user_request', to: 'user_request#new'
   post 'accept_request', to: 'user_request#accept_request'
   post 'decline_request', to: 'user_request#decline_request'
+
+  get 'new_message', to: 'user_message#new_message'
+  post 'new_message', to: 'user_message#new_message'
+  post 'send_new_message', to: 'user_message#send_new_message'
+  post 'send_message', to: 'user_message#send_message'
+  get '/messages/:id', to: 'user_message#show', :as => 'message'
+  get '/message/:id', to: 'user_message#show'
+
+
+  class OnlyAjaxRequest
+    def matches?(request)
+      request.xhr?
+    end
+  end
+
+  match '/fetch_messages' => 'user_message#fetch_messages', :constraints => OnlyAjaxRequest.new, via: [:get]
+  match '/fetch_messages_header' => 'user_message#fetch_messages_header', :constraints => OnlyAjaxRequest.new, via: [:get]
+
 
   resources :users
   resources :password_resets,     only: [:new, :create, :edit, :update]

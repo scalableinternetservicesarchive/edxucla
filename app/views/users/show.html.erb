@@ -12,6 +12,8 @@
       <% if(@isCorrectUser) %>
         <%= link_to "Edit Profile", '/edit_profile', class: "btn btn-md btn-primary" %>
       <% else %>
+        <%= button_to "Message", {action: 'new_message', controller: 'user_message', user: @user.id}, {form_class: 'button-to-form', class: "btn btn-md btn-primary button-to-mod"} %>
+
         <%= button_to "Request Tutor", {action: 'show_tutor', controller: 'user_request', user: @user.id}, {form_class: 'button-to-form', class: "btn btn-md btn-primary button-to-mod"} %>
 
         <%= button_to "Request Student", {action: 'show_student', controller: 'user_request', user: @user.id}, {form_class: 'button-to-form', class: "btn btn-md btn-primary button-to-mod"} %>
