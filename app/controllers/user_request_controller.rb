@@ -11,12 +11,24 @@ class UserRequestController < ApplicationController
       @user_request = UserRequest.create(request_type: request_params[:type], sender: request_params[:tutor], receiver: request_params[:student], course_id: request_params[:course])
 
       unless request_params[:message].empty?
-        @user_message = UserMessage.create(message: request_params[:message], sender: request_params[:tutor], receiver: request_params[:student])
+        conversation_params = {}
+        conversation_params[:user_one] = request_params[:tutor]
+        conversation_params[:user_two] = request_params[:student]
+
+        conversation = Conversation.safe_where_or_create_by(conversation_params)
+
+        @user_message = UserMessage.create(message: request_params[:message], sender: request_params[:tutor], receiver: request_params[:student], conversation_id: conversation.id)
       end
     elsif request_params[:type] == "tutor_request"
       @user_request = UserRequest.create(request_type: request_params[:type], sender: request_params[:student], receiver: request_params[:tutor], course_id: request_params[:course])
 
       unless request_params[:message].empty?
+        conversation_params = {}
+        conversation_params[:user_one] = request_params[:tutor]
+        conversation_params[:user_two] = request_params[:student]
+
+        conversation = Conversation.safe_where_or_create_by(conversation_params)
+
         @user_message = UserMessage.create(message: request_params[:message], sender: request_params[:tutor], receiver: request_params[:student])
       end
     end

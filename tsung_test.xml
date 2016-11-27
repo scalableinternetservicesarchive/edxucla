@@ -17,31 +17,37 @@
       <users arrivalrate="1" unit="second"></users>
     </arrivalphase>
     <arrivalphase phase="2" duration="30" unit="second">
+      <users arrivalrate="1.5" unit="second"></users>
+    </arrivalphase>
+   <arrivalphase phase="3" duration="30" unit="second">
       <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
-   <!-- <arrivalphase phase="3" duration="30" unit="second">
-      <users arrivalrate="4" unit="second"></users>
-    </arrivalphase>
    <arrivalphase phase="4" duration="30" unit="second">
-     <users arrivalrate="8" unit="second"></users>
+     <users arrivalrate="4" unit="second"></users>
    </arrivalphase>
-   <arrivalphase phase="5" duration="30" unit="second">
-     <users arrivalrate="16" unit="second"></users>
+   <!--<arrivalphase phase="5" duration="30" unit="second">
+     <users arrivalrate="6" unit="second"></users>
    </arrivalphase>
    <arrivalphase phase="6" duration="30" unit="second">
-     <users arrivalrate="32" unit="second"></users>
+     <users arrivalrate="10" unit="second"></users>
    </arrivalphase>
    <arrivalphase phase="7" duration="30" unit="second">
-     <users arrivalrate="64" unit="second"></users>
+     <users arrivalrate="16" unit="second"></users>
    </arrivalphase>
    <arrivalphase phase="8" duration="30" unit="second">
-     <users arrivalrate="128" unit="second"></users>
+     <users arrivalrate="20" unit="second"></users>
    </arrivalphase>
    <arrivalphase phase="9" duration="30" unit="second">
-     <users arrivalrate="256" unit="second"></users>
+     <users arrivalrate="25" unit="second"></users>
    </arrivalphase>
    <arrivalphase phase="10" duration="30" unit="second">
-     <users arrivalrate="512" unit="second"></users>
+     <users arrivalrate="35" unit="second"></users>
+   </arrivalphase>
+   <arrivalphase phase="11" duration="30" unit="second">
+     <users arrivalrate="45" unit="second"></users>
+   </arrivalphase>
+   <arrivalphase phase="12" duration="30" unit="second">
+     <users arrivalrate="55" unit="second"></users>
    </arrivalphase>-->
   </load>
 
@@ -62,6 +68,8 @@
         <http url='/' version='1.1' method='GET'></http>
       </request>
 
+      <thinktime value="2" random="true"></thinktime>
+
       <request>
         <http url='/signup' version='1.1' method='GET'></http>
       </request>
@@ -70,7 +78,7 @@
         <var name="rndstring1" />
       </setdynvars>
 
-      <setdynvars sourcetype="random_number" start="1" end="200">
+      <setdynvars sourcetype="random_number" start="1" end="100">
         <var name="course_number" />
       </setdynvars>
 
@@ -100,6 +108,8 @@
           contents="education%5Bname%5D=university+of+california+los+angeles&amp;education%5Balias%5D=ucla&amp;commit=Add+education"></http>
       </request>
 
+      <thinktime value="2" random="true"></thinktime>
+
       <request>
         <http url='/edit_profile' version='1.1' method='GET'></http>
       </request>
@@ -120,6 +130,8 @@
           contents="course_user%5Bcourse_name%5D=computer+science+%%_course_number%%&amp;course_user%5Bcourse_alias%5D=cs%%_course_number%%&amp;course%5Bdepartment%5D=computer+science&amp;commit=Add+Course"></http>
       </request>
 
+      <thinktime value="2" random="true"></thinktime>
+
       <repeat name="checkRequests" max_repeat="10">
         <thinktime value="5" random="true"></thinktime>
         <request subst="true">
@@ -129,10 +141,34 @@
         <until var="request_params" neq='' />
       </repeat>
 
+      <!-- Accept request  -->
       <if var="request_params" neq=''>
         <request subst="true">
-          <http url='/accept_request?%%_request_params%%' version='1.1' method='POST'></http>
+          <http url='/%%_request_params%%' version='1.1' method='POST'></http>
         </request>
+
+        <request subst="true">
+          <dyn_variable name="student_id" re='&lt;h2 class="message-other-user"&gt;\s*&lt;a href="/users/([0-9]*)"&gt;' ></dyn_variable>
+          <http url='/messages' version='1.1' method='GET'></http>
+        </request>
+
+        <!-- Conversation with student -->
+        <for from="1" to="10" incr="1" var="counter">
+          <thinktime value="2" random="true"></thinktime>
+
+          <request>
+            <http url='/messages' version='1.1' method='GET'></http>
+          </request>
+
+          <setdynvars sourcetype="random_string" length="20">
+            <var name="rndmessage" />
+          </setdynvars>
+
+          <request subst="true">
+            <http url='/send_message' version='1.1' method='POST'
+          contents="message=%%_rndmessage%%&amp;user=%%_student_id%%&amp;"></http>
+          </request>
+        </for>
       </if>
 
       <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
@@ -143,11 +179,14 @@
 
     </session>
 
-
     <session name="student-session" probability="50" type="ts_http">
+      <thinktime value="5" random="true"></thinktime>
+
       <request>
         <http url='/' version='1.1' method='GET'></http>
       </request>
+
+      <thinktime value="2" random="true"></thinktime>
 
       <request>
         <http url='/signup' version='1.1' method='GET'></http>
@@ -176,7 +215,7 @@
 
       <!-- Search for a tutor by course type-->
       <repeat name="find_courses" max_repeat="10">
-        <setdynvars sourcetype="random_number" start="1" end="200">
+        <setdynvars sourcetype="random_number" start="1" end="100">
           <var name="course_number" />
         </setdynvars>
 
@@ -189,6 +228,7 @@
 
       <thinktime value="2" random="true"></thinktime>
 
+      <!-- take first user on the list-->
       <request subst="true">
         <dyn_variable name="user_id" re='&lt;a href="/users/([0-9]*)"&gt;' ></dyn_variable>
         <http url='%%_course_url%%' version='1.1' method='GET'></http>
@@ -196,26 +236,29 @@
 
       <thinktime value="2" random="true"></thinktime>
 
-      <request subst="true">
-        <http url='/users/%%_user_id%%' version='1.1' method='GET'></http>
-      </request>
+      <!-- if we found an actual user -->
+      <if var="user_id" neq=''>
+        <request subst="true">
+          <http url='/users/%%_user_id%%' version='1.1' method='GET'></http>
+        </request>
 
-      <request subst="true">
-        <http url='/request_tutor?user=%%_user_id%%' version='1.1' method='POST'></http>
-      </request>
+        <request subst="true">
+          <http url='/request_tutor?user=%%_user_id%%' version='1.1' method='POST'></http>
+        </request>
 
-      <thinktime value="3" random="true"></thinktime>
+        <thinktime value="3" random="true"></thinktime>
 
-      <setdynvars sourcetype="random_string" length="20">
-        <var name="rndmsg" />
-      </setdynvars>
+        <setdynvars sourcetype="random_string" length="20">
+          <var name="rndmsg" />
+        </setdynvars>
 
-      <request subst="true">
-        <http url='/send_user_request' version='1.1' method='POST'
-          contents="message=%%_rndmsg%%&amp;tutor=%%_user_id%%&amp;student=%%_my_id%%&amp;type=tutor_request&amp;commit=Send+Request"></http>
-      </request>
+        <request subst="true">
+          <http url='/send_user_request' version='1.1' method='POST'
+            contents="message=%%_rndmsg%%&amp;tutor=%%_user_id%%&amp;student=%%_my_id%%&amp;type=tutor_request&amp;commit=Send+Request"></http>
+        </request>
 
-      <!--<thinktime value="3" random="true"></thinktime>-->
+        <!--<thinktime value="3" random="true"></thinktime>-->
+      </if>
 
       <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
           io:format([126, $p, 126, $n, 126, $n], [DynVars]),
