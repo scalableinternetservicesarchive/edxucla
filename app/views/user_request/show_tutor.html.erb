@@ -33,7 +33,8 @@
         <% end %>
 
         <%= text_area_tag "message", nil ,:size => "30x10", placeholder: "Message", class: "input"%>
-        <%= hidden_field_tag :user, @user.id %>
+        <%= hidden_field_tag :tutor, @user.id %>
+        <%= hidden_field_tag :student, @curr_user_id %>
         <%= hidden_field_tag :type, 'tutor_request' %>
         <%= submit_tag "Send Request", class: "btn btn-primary" %>
       <% end %>

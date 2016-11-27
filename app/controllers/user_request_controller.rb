@@ -1,20 +1,32 @@
 class UserRequestController < ApplicationController
   def new
-    request_params = params.permit(:user, :type, :course, :message)
+    request_params = params.permit(:student, :tutor, :type, :course, :message)
     curr_user = current_user
 
     if request_params[:course].nil?
       request_params[:course] = 0
     end
 
-    @user_request = UserRequest.create(request_type: request_params[:type], sender: curr_user.id, receiver: request_params[:user], course_id: request_params[:course])
+    if request_params[:type] == "student_request"
+      @user_request = UserRequest.create(request_type: request_params[:type], sender: request_params[:tutor], receiver: request_params[:student], course_id: request_params[:course])
 
-    unless request_params[:message].empty?
-      @user_message = UserMessage.create(message: request_params[:message], sender: curr_user.id, receiver: request_params[:user])
+      unless request_params[:message].empty?
+        @user_message = UserMessage.create(message: request_params[:message], sender: request_params[:tutor], receiver: request_params[:student])
+      end
+    elsif request_params[:type] == "tutor_request"
+      @user_request = UserRequest.create(request_type: request_params[:type], sender: request_params[:student], receiver: request_params[:tutor], course_id: request_params[:course])
+
+      unless request_params[:message].empty?
+        @user_message = UserMessage.create(message: request_params[:message], sender: request_params[:tutor], receiver: request_params[:student])
+      end
     end
 
     flash[:success] = "Request sent"
-    redirect_to User.find(request_params[:user])
+    if request_params[:type] == "student_request"
+      redirect_to User.find(request_params[:student])
+    elsif request_params[:type] == "tutor_request"
+      redirect_to User.find(request_params[:tutor])
+    end
   end
 
   def show_tutor
@@ -51,6 +63,7 @@ class UserRequestController < ApplicationController
     @num_course_users = @course_users.count
     @num_educations = @educations.count
     @counter = 0
+    @curr_user_id = current_user.id
   end
 
   def show_student
@@ -87,6 +100,7 @@ class UserRequestController < ApplicationController
     @num_course_users = @course_users.count
     @num_educations = @educations.count
     @counter = 0
+    @curr_user_id = current_user.id
   end
 
   def requests

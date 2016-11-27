@@ -9,9 +9,8 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="ec2-35-160-141-73.us-west-2.compute.amazonaws.com" port="80" type="tcp"></server>
+    <server host="" port="80" type="tcp"></server>
   </servers>
-
 
   <load>
     <arrivalphase phase="1" duration="30" unit="second">
@@ -20,10 +19,10 @@
     <arrivalphase phase="2" duration="30" unit="second">
       <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
-    <arrivalphase phase="3" duration="30" unit="second">
+   <!-- <arrivalphase phase="3" duration="30" unit="second">
       <users arrivalrate="4" unit="second"></users>
     </arrivalphase>
-   <!--<arrivalphase phase="4" duration="30" unit="second">
+   <arrivalphase phase="4" duration="30" unit="second">
      <users arrivalrate="8" unit="second"></users>
    </arrivalphase>
    <arrivalphase phase="5" duration="30" unit="second">
@@ -121,6 +120,21 @@
           contents="course_user%5Bcourse_name%5D=computer+science+%%_course_number%%&amp;course_user%5Bcourse_alias%5D=cs%%_course_number%%&amp;course%5Bdepartment%5D=computer+science&amp;commit=Add+Course"></http>
       </request>
 
+      <repeat name="checkRequests" max_repeat="10">
+        <thinktime value="5" random="true"></thinktime>
+        <request subst="true">
+          <dyn_variable name="request_params" re='&lt;form class="button-to-form" method="post" action="(.*)"&gt;' ></dyn_variable>
+          <http url='/requests' version='1.1' method='GET'></http>
+        </request>
+        <until var="request_params" neq='' />
+      </repeat>
+
+      <if var="request_params" neq=''>
+        <request subst="true">
+          <http url='/accept_request?%%_request_params%%' version='1.1' method='POST'></http>
+        </request>
+      </if>
+
       <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
           io:format([126, $p, 126, $n, 126, $n], [DynVars]),
           ok end.">
@@ -128,6 +142,7 @@
       </setdynvars>
 
     </session>
+
 
     <session name="student-session" probability="50" type="ts_http">
       <request>
@@ -142,14 +157,6 @@
         <var name="rndstring1" />
       </setdynvars>
 
-      <setdynvars sourcetype="random_number" start="1" end="200">
-        <var name="course_number" />
-      </setdynvars>
-
-      <setdynvars sourcetype="random_number" start="1" end="200">
-        <var name="course_number2" />
-      </setdynvars>
-
       <!-- wait for up to 2 seconds -->
       <thinktime value="2" random="true"></thinktime>
 
@@ -159,23 +166,56 @@
           contents="user%5Bname%5D=%%_rndstring1%%&amp;user%5Bemail%5D=%%_rndstring1%%%40example.com&amp;user%5Bpassword%5D=foobar&amp;user%5Bpassword_confirmation%5D=foobar&amp;commit=Create+my+account"></http>
       </request>
 
-      <!-- wait for up to 2 seconds -->
-      <thinktime value="2" random="true"></thinktime>
+      <request subst="true">
+          <dyn_variable name="my_id" re='href="/users/([0-9]*)"&gt;Profile' ></dyn_variable>
+          <http url='/' version='1.1' method='GET'></http>
+      </request>
+
+      <!-- wait for up to 5 seconds -->
+      <thinktime value="5" random="true"></thinktime>
 
       <!-- Search for a tutor by course type-->
-      <request subst="true">
-        <dyn_variable name="course_url" re='&lt;li&gt;\s*&lt;a href="(.*)">computer science' ></dyn_variable>
-        <http url='/search?type=Course&amp;input=cs%%_course_number%%' version='1.1' method='GET'></http>
-      </request>
+      <repeat name="find_courses" max_repeat="10">
+        <setdynvars sourcetype="random_number" start="1" end="200">
+          <var name="course_number" />
+        </setdynvars>
+
+        <request subst="true">
+          <dyn_variable name="course_url" re='&lt;li&gt;\s*&lt;a href="(.*)">computer science' ></dyn_variable>
+          <http url='/search?type=Course&amp;input=cs%%_course_number%%' version='1.1' method='GET'></http>
+        </request>
+        <until var="course_url" neq='' />
+      </repeat>
+
+      <thinktime value="2" random="true"></thinktime>
 
       <request subst="true">
         <dyn_variable name="user_id" re='&lt;a href="/users/([0-9]*)"&gt;' ></dyn_variable>
         <http url='%%_course_url%%' version='1.1' method='GET'></http>
       </request>
 
+      <thinktime value="2" random="true"></thinktime>
+
       <request subst="true">
         <http url='/users/%%_user_id%%' version='1.1' method='GET'></http>
       </request>
+
+      <request subst="true">
+        <http url='/request_tutor?user=%%_user_id%%' version='1.1' method='POST'></http>
+      </request>
+
+      <thinktime value="3" random="true"></thinktime>
+
+      <setdynvars sourcetype="random_string" length="20">
+        <var name="rndmsg" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/send_user_request' version='1.1' method='POST'
+          contents="message=%%_rndmsg%%&amp;tutor=%%_user_id%%&amp;student=%%_my_id%%&amp;type=tutor_request&amp;commit=Send+Request"></http>
+      </request>
+
+      <!--<thinktime value="3" random="true"></thinktime>-->
 
       <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
           io:format([126, $p, 126, $n, 126, $n], [DynVars]),
@@ -184,8 +224,5 @@
       </setdynvars>
 
     </session>
-
-
-
   </sessions>
 </tsung>
