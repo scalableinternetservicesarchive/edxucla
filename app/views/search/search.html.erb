@@ -25,19 +25,23 @@
         <% elsif @search_result_type == "educations" %>
           <% while i < @search.count do %>
             <% education = @search[i] %>
-            <li>
-              <%= link_to education.name, :type => "Courses-education", :input => education.id %>
-              <%= "("+education.alias+")" %>
-            </li>
+            <% unless education.nil? %>
+              <li>
+                <%= link_to education.name, :type => "Courses-education", :input => education.id %>
+                <%= "("+education.alias+")" %>
+              </li>
+            <% end %>
             <% i +=1 %>
           <% end %>
         <% elsif @search_result_type == "users" %>
           <% while i < @search.count do %>
             <% user = @search[i] %>
-            <li>
-              <%= gravatar_for user, size: 50 %>
-              <%= link_to user.name, user %>
-            </li>
+            <% unless user.nil? %>
+              <li>
+                <%= gravatar_for user, size: 50 %>
+                <%= link_to user.name, user %>
+              </li>
+            <% end %>
             <% i +=1 %>
           <% end %>
         <% end %>

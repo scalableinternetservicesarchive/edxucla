@@ -1,7 +1,9 @@
 <body class="default">
 <br><br>
 <li>
-  <%= gravatar_for user, size: 50 %>
-  <%= link_to user.name, user %>
+  <% unless user.nil? %>
+    <%= gravatar_for user, size: 50 %>
+    <%= link_to user.name, user %>
+  <% end %>
 </li>
 </body>

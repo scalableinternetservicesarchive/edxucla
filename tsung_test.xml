@@ -9,7 +9,7 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="" port="80" type="tcp"></server>
+    <server host="ec2-35-160-141-73.us-west-2.compute.amazonaws.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -17,12 +17,33 @@
     <arrivalphase phase="1" duration="30" unit="second">
       <users arrivalrate="1" unit="second"></users>
     </arrivalphase>
-    <!--<arrivalphase phase="2" duration="30" unit="second">
+    <arrivalphase phase="2" duration="30" unit="second">
       <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
     <arrivalphase phase="3" duration="30" unit="second">
       <users arrivalrate="4" unit="second"></users>
-    </arrivalphase>-->
+    </arrivalphase>
+   <!--<arrivalphase phase="4" duration="30" unit="second">
+     <users arrivalrate="8" unit="second"></users>
+   </arrivalphase>
+   <arrivalphase phase="5" duration="30" unit="second">
+     <users arrivalrate="16" unit="second"></users>
+   </arrivalphase>
+   <arrivalphase phase="6" duration="30" unit="second">
+     <users arrivalrate="32" unit="second"></users>
+   </arrivalphase>
+   <arrivalphase phase="7" duration="30" unit="second">
+     <users arrivalrate="64" unit="second"></users>
+   </arrivalphase>
+   <arrivalphase phase="8" duration="30" unit="second">
+     <users arrivalrate="128" unit="second"></users>
+   </arrivalphase>
+   <arrivalphase phase="9" duration="30" unit="second">
+     <users arrivalrate="256" unit="second"></users>
+   </arrivalphase>
+   <arrivalphase phase="10" duration="30" unit="second">
+     <users arrivalrate="512" unit="second"></users>
+   </arrivalphase>-->
   </load>
 
   <options>
@@ -36,7 +57,7 @@
 
   <sessions>
     <!-- Tutor -->
-    <session name="tutor-session" probability="0" type="ts_http">
+    <session name="tutor-session" probability="50" type="ts_http">
 
       <request>
         <http url='/' version='1.1' method='GET'></http>
@@ -88,7 +109,7 @@
       <thinktime value="2" random="true"></thinktime>
 
       <request>
-        <http url='/edit_profile?eid=1' version='1.1' method='GET'></http>
+        <http url='/edit_education?eid=1' version='1.1' method='GET'></http>
       </request>
 
       <!-- wait for up to 2 seconds -->
@@ -100,9 +121,15 @@
           contents="course_user%5Bcourse_name%5D=computer+science+%%_course_number%%&amp;course_user%5Bcourse_alias%5D=cs%%_course_number%%&amp;course%5Bdepartment%5D=computer+science&amp;commit=Add+Course"></http>
       </request>
 
+      <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
+          io:format([126, $p, 126, $n, 126, $n], [DynVars]),
+          ok end.">
+          <var name="dump" />
+      </setdynvars>
+
     </session>
 
-    <session name="student-session" probability="100" type="ts_http">
+    <session name="student-session" probability="50" type="ts_http">
       <request>
         <http url='/' version='1.1' method='GET'></http>
       </request>
