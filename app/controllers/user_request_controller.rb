@@ -29,7 +29,7 @@ class UserRequestController < ApplicationController
 
         conversation = Conversation.safe_where_or_create_by(conversation_params)
 
-        @user_message = UserMessage.create(message: request_params[:message], sender: request_params[:tutor], receiver: request_params[:student])
+       @user_message = UserMessage.create(message: request_params[:message], sender: request_params[:tutor], receiver: request_params[:student], conversation_id: conversation.id)
       end
     end
 
