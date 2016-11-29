@@ -47,8 +47,8 @@ Rails.application.routes.draw do
     end
   end
 
-  match '/fetch_messages' => 'user_message#fetch_messages', :constraints => OnlyAjaxRequest.new, via: [:get]
-  match '/fetch_messages_header' => 'user_message#fetch_messages_header', :constraints => OnlyAjaxRequest.new, via: [:get]
+  match '/fetch_messages' => 'user_message#fetch_messages', via: [:get]#, :constraints => OnlyAjaxRequest.new
+  match '/fetch_messages_header' => 'user_message#fetch_messages_header', via: [:get]#, :constraints => OnlyAjaxRequest.new
 
 
   resources :users

@@ -18,12 +18,12 @@
               <%= link_to user.name, user %>
                <% if request.request_type == 'tutor_request'  %>
                 <%= "wants you to tutor them" %>
-                <% tutor = user.id%>
-                <% student = current_user.id%>
+                <% tutor = current_user.id %>
+                <% student = user.id %>
               <% elsif request.request_type == 'student_request'%>
                 <%= "wants to tutor you" %>
-                <% tutor = current_user.id%>
-                <% student = user.id%>
+                <% tutor = user.id %>
+                <% student = current_user.id %>
               <% end %>
               <br>
               <% unless course.nil? %>
