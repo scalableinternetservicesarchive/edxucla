@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116104241) do
+ActiveRecord::Schema.define(version: 20161129070136) do
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "user_one"
@@ -46,6 +46,13 @@ ActiveRecord::Schema.define(version: 20161116104241) do
   create_table "educations", force: :cascade do |t|
     t.string "name"
     t.string "alias"
+  end
+
+  create_table "seed_states", force: :cascade do |t|
+    t.boolean  "status",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status"], name: "index_seed_states_on_status", unique: true
   end
 
   create_table "session_messages", force: :cascade do |t|
