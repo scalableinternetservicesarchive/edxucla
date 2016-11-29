@@ -13,40 +13,40 @@
   </servers>
 
   <load>
-    <arrivalphase phase="1" duration="30" unit="second">
+    <arrivalphase phase="1" duration="60" unit="second">
       <users arrivalrate="1" unit="second"></users>
     </arrivalphase>
-    <arrivalphase phase="2" duration="30" unit="second">
+    <arrivalphase phase="2" duration="60" unit="second">
       <users arrivalrate="1.5" unit="second"></users>
     </arrivalphase>
-   <arrivalphase phase="3" duration="30" unit="second">
+   <arrivalphase phase="3" duration="60" unit="second">
       <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
-   <arrivalphase phase="4" duration="30" unit="second">
+   <arrivalphase phase="4" duration="60" unit="second">
      <users arrivalrate="4" unit="second"></users>
    </arrivalphase>
-   <!--<arrivalphase phase="5" duration="30" unit="second">
+   <arrivalphase phase="5" duration="60" unit="second">
      <users arrivalrate="6" unit="second"></users>
    </arrivalphase>
-   <arrivalphase phase="6" duration="30" unit="second">
+   <!--<arrivalphase phase="6" duration="60" unit="second">
      <users arrivalrate="10" unit="second"></users>
    </arrivalphase>
-   <arrivalphase phase="7" duration="30" unit="second">
+   <arrivalphase phase="7" duration="60" unit="second">
      <users arrivalrate="16" unit="second"></users>
    </arrivalphase>
-   <arrivalphase phase="8" duration="30" unit="second">
+   <arrivalphase phase="8" duration="60" unit="second">
      <users arrivalrate="20" unit="second"></users>
    </arrivalphase>
-   <arrivalphase phase="9" duration="30" unit="second">
+   <arrivalphase phase="9" duration="60" unit="second">
      <users arrivalrate="25" unit="second"></users>
    </arrivalphase>
-   <arrivalphase phase="10" duration="30" unit="second">
+   <arrivalphase phase="10" duration="60" unit="second">
      <users arrivalrate="35" unit="second"></users>
    </arrivalphase>
-   <arrivalphase phase="11" duration="30" unit="second">
+   <arrivalphase phase="11" duration="60" unit="second">
      <users arrivalrate="45" unit="second"></users>
    </arrivalphase>
-   <arrivalphase phase="12" duration="30" unit="second">
+   <arrivalphase phase="12" duration="60" unit="second">
      <users arrivalrate="55" unit="second"></users>
    </arrivalphase>-->
   </load>
@@ -82,14 +82,21 @@
         <var name="course_number" />
       </setdynvars>
 
-      <!-- wait for up to 2 seconds -->
-      <thinktime value="2" random="true"></thinktime>
-
       <!-- Sign up a new user -->
-      <request subst="true">
-        <http url='/signup' version='1.1' method='POST'
+      <repeat name="signInLoop" max_repeat="5">
+        <thinktime value="3" random="true"></thinktime>
+        <request subst="true">
+          <http url='/signup' version='1.1' method='POST'
           contents="user%5Bname%5D=%%_rndstring1%%&amp;user%5Bemail%5D=%%_rndstring1%%%40example.com&amp;user%5Bpassword%5D=foobar&amp;user%5Bpassword_confirmation%5D=foobar&amp;commit=Create+my+account"></http>
-      </request>
+        </request>
+
+        <request subst="true">
+           <dyn_variable name="dashboard_string" re='&lt;(My Dashboard)&gt;' ></dyn_variable>
+          <http url='/' version='1.1' method='GET'></http>
+        </request>
+
+        <until var="dashboard_string" neq='' />
+      </repeat>
 
       <!-- wait for up to 2 seconds -->
       <thinktime value="2" random="true"></thinktime>
@@ -152,30 +159,57 @@
           <http url='/messages' version='1.1' method='GET'></http>
         </request>
 
+
+        <thinktime value="5" random="true"></thinktime>
+        <request subst="true">
+          <dyn_variable name="conversation_link" re='&lt;a href="(.*)"&gt;Conversation' ></dyn_variable>
+          <http url='/' version='1.1' method='GET'></http>
+        </request>
+
         <!-- Conversation with student -->
-        <for from="1" to="10" incr="1" var="counter">
-          <thinktime value="2" random="true"></thinktime>
+        <if var="conversation_link" neq=''>
+          <for from="1" to="10" incr="1" var="counter">
+            <request subst="true">
+              <dyn_variable name="other_user_id" re='id="message-other-user-id" value="([0-9]*)"' ></dyn_variable>
+              <dyn_variable name="last_message_time" re='id="message-last-time" value="([0-9]*)"' ></dyn_variable>
+              <dyn_variable name="last_message_id" re='id="message-last-id" value="([0-9]*)"' ></dyn_variable>
+              <http url='%%_conversation_link%%' version='1.1' method='GET'></http>
+            </request>
 
-          <request>
-            <http url='/messages' version='1.1' method='GET'></http>
-          </request>
+            <setdynvars sourcetype="random_string" length="20">
+              <var name="rndmessage" />
+            </setdynvars>
 
-          <setdynvars sourcetype="random_string" length="20">
-            <var name="rndmessage" />
-          </setdynvars>
+            <request subst="true">
+              <http url='/send_message' version='1.1' method='POST'
+            contents="message=%%_rndmessage%%&amp;user=%%_student_id%%&amp;"></http>
+            </request>
 
-          <request subst="true">
-            <http url='/send_message' version='1.1' method='POST'
-          contents="message=%%_rndmessage%%&amp;user=%%_student_id%%&amp;"></http>
-          </request>
-        </for>
+            <setdynvars sourcetype="random_number" start="1" end="5">
+              <var name="poll_number" />
+            </setdynvars>
+
+            <for from="1" to="%%_poll_number%%" incr="1" var="counter2">
+              <thinktime value="2" random="true"></thinktime>
+
+              <request subst="true">
+                <http url='/fetch_messages?other_user_id=%%_other_user_id%%&amp;last_message_time=%%_last_message_time%%&amp;last_message_id=%%last_message_id%%' version='1.1' method='GET'></http>
+                </request>
+            </for>
+
+          </for>
+        </if>
       </if>
 
+
+      <!-- Use for debugging dynamic variables -->
+      <!--
       <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
           io:format([126, $p, 126, $n, 126, $n], [DynVars]),
           ok end.">
           <var name="dump" />
       </setdynvars>
+      -->
 
     </session>
 
@@ -196,14 +230,21 @@
         <var name="rndstring1" />
       </setdynvars>
 
-      <!-- wait for up to 2 seconds -->
-      <thinktime value="2" random="true"></thinktime>
-
       <!-- Sign up a new user -->
-      <request subst="true">
-        <http url='/signup' version='1.1' method='POST'
+      <repeat name="signInLoop" max_repeat="5">
+        <thinktime value="3" random="true"></thinktime>
+        <request subst="true">
+          <http url='/signup' version='1.1' method='POST'
           contents="user%5Bname%5D=%%_rndstring1%%&amp;user%5Bemail%5D=%%_rndstring1%%%40example.com&amp;user%5Bpassword%5D=foobar&amp;user%5Bpassword_confirmation%5D=foobar&amp;commit=Create+my+account"></http>
-      </request>
+        </request>
+
+        <request subst="true">
+           <dyn_variable name="dashboard_string" re='&lt;(My Dashboard)&gt;' ></dyn_variable>
+          <http url='/' version='1.1' method='GET'></http>
+        </request>
+
+        <until var="dashboard_string" neq='' />
+      </repeat>
 
       <request subst="true">
           <dyn_variable name="my_id" re='href="/users/([0-9]*)"&gt;Profile' ></dyn_variable>
@@ -257,15 +298,67 @@
             contents="message=%%_rndmsg%%&amp;tutor=%%_user_id%%&amp;student=%%_my_id%%&amp;type=tutor_request&amp;commit=Send+Request"></http>
         </request>
 
-        <!--<thinktime value="3" random="true"></thinktime>-->
+        <thinktime value="3" random="true"></thinktime>
+
+        <repeat name="checkDash" max_repeat="10">
+          <thinktime value="5" random="true"></thinktime>
+          <request subst="true">
+            <dyn_variable name="conversation_link" re='&lt;a href="(.*)"&gt;Conversation' ></dyn_variable>
+            <http url='/' version='1.1' method='GET'></http>
+          </request>
+          <until var="conversation_link" neq='' />
+        </repeat>
+
+
+        <!-- if a tutor accepted your request -->
+        <if var="conversation_link" neq=''>
+          <request subst="true">
+            <dyn_variable name="student_id" re='&lt;h2 class="message-other-user"&gt;\s*&lt;a href="/users/([0-9]*)"&gt;' ></dyn_variable>
+            <http url='%%_conversation_link%%' version='1.1' method='GET'></http>
+          </request>
+
+          <!-- Conversation with tutor -->
+          <for from="1" to="10" incr="1" var="counter">
+            <request subst="true">
+              <dyn_variable name="other_user_id" re='id="message-other-user-id" value="([0-9]*)"' ></dyn_variable>
+              <dyn_variable name="last_message_time" re='id="message-last-time" value="([0-9]*)"' ></dyn_variable>
+              <dyn_variable name="last_message_id" re='id="message-last-id" value="([0-9]*)"' ></dyn_variable>
+              <http url='%%_conversation_link%%' version='1.1' method='GET'></http>
+            </request>
+
+            <setdynvars sourcetype="random_string" length="20">
+              <var name="rndmessage" />
+            </setdynvars>
+
+            <request subst="true">
+              <http url='/send_message' version='1.1' method='POST'
+            contents="message=%%_rndmessage%%&amp;user=%%_student_id%%&amp;"></http>
+            </request>
+
+              <setdynvars sourcetype="random_number" start="1" end="5">
+                <var name="poll_number" />
+              </setdynvars>
+
+              <for from="1" to="%%_poll_number%%" incr="1" var="counter2">
+                <thinktime value="2" random="true"></thinktime>
+
+                <request subst="true">
+                  <http url='/fetch_messages?other_user_id=%%_other_user_id%%&amp;last_message_time=%%_last_message_time%%&amp;last_message_id=%%last_message_id%%' version='1.1' method='GET'></http>
+                </request>
+              </for>
+
+          </for>
+        </if>
       </if>
 
+      <!-- Use for debugging dynamic variables -->
+      <!--
       <setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
           io:format([126, $p, 126, $n, 126, $n], [DynVars]),
           ok end.">
           <var name="dump" />
       </setdynvars>
-
+      -->
     </session>
   </sessions>
 </tsung>
