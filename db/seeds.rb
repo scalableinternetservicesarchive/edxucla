@@ -18,7 +18,7 @@ else
   p '===This is the only one instance that is seeding the data...'
 
   #number of users
-  num = 11
+  num = 1000
 
   education_array = [
     ["university of california los angeles", "ucla"],
