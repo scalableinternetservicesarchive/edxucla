@@ -27,6 +27,11 @@ $gray-medium-light: #eaeaea;
   padding-top: 60px;
   color: #fff;
   background-size: 100% 100%;
+  footer{
+    position: fixed;
+    width: 80%;
+    left: 10%;
+  }
 }
 
 .home{
@@ -43,6 +48,30 @@ $gray-medium-light: #eaeaea;
         .hometext{
       color: #F05F40;
     }
+    position: scroll;
+    width: 90%;
+    left: 10%;
+  }
+  background-size: 100% 800px;
+}
+
+.helppage{
+  	background: url('/header.jpg'); 
+	background-repeat: no-repeat;
+  background-attachment: fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 60px;
+  color: #fff;
+  footer{
+        .hometext{
+      color: #fff;
+    }
+    position: scroll;
+    width: 90%;
+    left: 40%;
   }
   background-size: 100% 800px;
 }
@@ -151,10 +180,7 @@ footer {
   padding-top: 5px;
   border-top: 1px solid #eaeaea;
   color: #F05F40;
-  position: fixed;
   bottom: 0%;
-  width: 80%;
-  left: 10%;
 }
 
 /*footer a {
