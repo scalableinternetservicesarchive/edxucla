@@ -151,6 +151,14 @@ class UserRequestController < ApplicationController
     request = UserRequest.find(request_id)
 
     tutoring_session = TutoringSession.create(session_params)
+
+    conversation_params = {}
+    conversation_params[:user_one] = session_params[:tutor]
+    conversation_params[:user_two] = session_params[:student]
+
+    conversation = Conversation.safe_where_or_create_by(conversation_params)
+    UserMessage.create(message: "Hi", sender: request.receiver, receiver: request.sender, conversation_id: conversation.id)
+
     request.destroy
 
     flash[:success] = "Request Accepted"
