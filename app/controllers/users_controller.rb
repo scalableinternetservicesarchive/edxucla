@@ -31,6 +31,8 @@ class UsersController < ApplicationController
     @num_educations = @educations.count
     @counter = 0
 
+    fresh_when([@user,@educations,@course_users,@education_users])
+
   end
 
   def new
