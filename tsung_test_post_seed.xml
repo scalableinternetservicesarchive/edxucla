@@ -31,10 +31,10 @@
    <arrivalphase phase="6" duration="60" unit="second">
      <users arrivalrate="10" unit="second"></users>
    </arrivalphase>
-   <!--<arrivalphase phase="7" duration="60" unit="second">
+   <arrivalphase phase="7" duration="60" unit="second">
      <users arrivalrate="16" unit="second"></users>
    </arrivalphase>
-   <arrivalphase phase="8" duration="60" unit="second">
+   <!--<arrivalphase phase="8" duration="60" unit="second">
      <users arrivalrate="20" unit="second"></users>
    </arrivalphase>
    <arrivalphase phase="9" duration="60" unit="second">
@@ -62,7 +62,7 @@
 
   <sessions>
     <!-- Tutor -->
-    <session name="tutor-session" probability="50" type="ts_http">
+    <session name="new-tutor-session" probability="25" type="ts_http">
 
       <request>
         <http url='/' version='1.1' method='GET'></http>
@@ -213,7 +213,7 @@
 
     </session>
 
-    <session name="student-session" probability="50" type="ts_http">
+    <session name="new-student-session" probability="25" type="ts_http">
       <thinktime value="5" random="true"></thinktime>
 
       <request>
@@ -359,6 +359,89 @@
           <var name="dump" />
       </setdynvars>
       -->
+    </session>
+
+    <session name="returning-user" probability="50" type="ts_http">
+      <request>
+        <http url='/' version='1.1' method='GET'></http>
+      </request>
+
+      <setdynvars sourcetype="random_number" start="1" end="11">
+        <var name="current_user_id" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url='/login' version='1.1' method='POST'
+        contents="session%5Bemail%5D=user_%%_current_user_id%%%40example.com&amp;session%5Bpassword%5D=password&amp;session%5Bremember_me%5D=0%%&amp;commit=Log+in"></http>
+      </request>
+
+      <!-- Check requests randomly -->
+      <repeat name="checkRequests" max_repeat="10">
+        <thinktime value="5" random="true"></thinktime>
+        <request subst="true">
+          <dyn_variable name="request_params" re='&lt;form class="button-to-form" method="post" action="(.*)"&gt;' ></dyn_variable>
+          <http url='/requests' version='1.1' method='GET'></http>
+        </request>
+        <until var="request_params" neq='' />
+      </repeat>
+
+      <!-- If we have a request accept it  -->
+      <if var="request_params" neq=''>
+        <request subst="true">
+          <http url='/%%_request_params%%' version='1.1' method='POST'></http>
+        </request>
+      </if>
+
+      <!-- Check dashboard for conversations -->
+      <thinktime value="5" random="true"></thinktime>
+      <request subst="true">
+        <dyn_variable name="conversation_link" re='&lt;a href="(.*)"&gt;Conversation' ></dyn_variable>
+        <http url='/' version='1.1' method='GET'></http>
+      </request>
+
+      <!-- Conversation -->
+      <if var="conversation_link" neq=''>
+        <for from="1" to="10" incr="1" var="counter">
+          <request subst="true">
+            <dyn_variable name="other_user_id" re='id="message-other-user-id" value="([0-9]*)"' ></dyn_variable>
+            <dyn_variable name="last_message_time" re='id="message-last-time" value="([0-9]*)"' ></dyn_variable>
+            <dyn_variable name="last_message_id" re='id="message-last-id" value="([0-9]*)"' ></dyn_variable>
+            <http url='%%_conversation_link%%' version='1.1' method='GET'></http>
+          </request>
+
+          <setdynvars sourcetype="random_string" length="20">
+            <var name="rndmessage" />
+          </setdynvars>
+
+          <request subst="true">
+            <http url='/send_message' version='1.1' method='POST'
+          contents="message=%%_rndmessage%%&amp;user=%%_other_user_id%%&amp;"></http>
+          </request>
+
+          <setdynvars sourcetype="random_number" start="1" end="5">
+            <var name="poll_number" />
+          </setdynvars>
+
+          <for from="1" to="%%_poll_number%%" incr="1" var="counter2">
+            <thinktime value="2" random="true"></thinktime>
+
+            <request subst="true">
+              <http url='/fetch_messages?other_user_id=%%_other_user_id%%&amp;last_message_time=%%_last_message_time%%&amp;last_message_id=%%last_message_id%%' version='1.1' method='GET'></http>
+              </request>
+          </for>
+
+        </for>
+      </if>
+
+      <!--<setdynvars sourcetype="eval" code="fun( {Pid, DynVars} ) ->
+          io:format([126, $p, 126, $n, 126, $n], [DynVars]),
+          ok end.">
+          <var name="dump" />
+      </setdynvars>-->
+    </session>
+
+    <!--  This type of user just runs searches -->
+    <session name="search-user" probability="0" type="ts_http">
     </session>
   </sessions>
 </tsung>

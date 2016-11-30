@@ -48,7 +48,7 @@ else
 
   course_array = []
 
-  100.times do |a|
+  1000.times do |a|
     t_course = [('a'..'z').to_a.shuffle[0,13].join , "ge#{(a % 1000) + 1 }" ]
     course_array[a] = t_course
   end
@@ -93,6 +93,7 @@ else
 
     if education_it == 0
       course_counter = course_counter + 1
+      course_counter = course_counter % 1000
     end
 
     EducationUser.create(
