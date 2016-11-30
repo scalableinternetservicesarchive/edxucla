@@ -23,6 +23,8 @@ class StaticPagesController < ApplicationController
         i += 1
       end
     end
+
+    fresh_when([@conversations_tutor,@conversations_student])
   end
 
   def help
