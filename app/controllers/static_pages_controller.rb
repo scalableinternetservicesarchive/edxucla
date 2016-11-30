@@ -10,7 +10,7 @@ class StaticPagesController < ApplicationController
       i = 0
       while i < @sessions_tutor.count
         @students[i] = User.find(@sessions_tutor[i].student)
-        @conversations_tutor[i] = Conversation.where('user_one = :sender OR user_two = :receiver', sender: @students[i], receiver: @students[i])[0]
+        @conversations_tutor[i] = Conversation.where('user_one = :sender and user_two = :receiver or user_one = :receiver and user_two = :sender', sender: user, receiver: @students[i])[0]
         i += 1
       end
 
@@ -19,7 +19,7 @@ class StaticPagesController < ApplicationController
       @conversations_student = []
       while i < @sessions_student.count
         @tutors[i] = User.find(@sessions_student[i].tutor)
-        @conversations_student[i] = Conversation.where('user_one = :sender OR user_two = :receiver', sender: @tutors[i], receiver: @tutors[i])[0]
+        @conversations_student[i] = Conversation.where('user_one = :sender and user_two = :receiver or user_one = :receiver and user_two = :sender', sender: user, receiver: @tutors[i])[0]
         i += 1
       end
     end
