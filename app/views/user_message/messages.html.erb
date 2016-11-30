@@ -67,7 +67,7 @@
                     <%= gravatar_for other_user, size: 35 %>
                   </a>
                   <div class="media-body">
-                    <small class="pull-right time">
+                    <small class="pull-right time white">
                       <%= message.created_at.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %I:%M%p") %>
                     </small>
 
@@ -93,7 +93,10 @@
           <% gravatar_user = get_gravatar_for @user, size: 35 %>
           <% gravatar_other_user = get_gravatar_for active_user, size: 35%>
 
+
           <div class="send-wrap ">
+            <table style="width:100%">
+            <tr>
             <%= form_tag("/send_message", remote: true, id: "message-submission") do %>
               <%= text_area_tag "message", nil ,:size => "30x2", placeholder: "Type a message", class: "black form-control send-message", id: "send-message" %>
               <%= hidden_field_tag :user, active_user.id, class: "message-user", id: "message-other-user-id" %>
@@ -111,20 +114,18 @@
               <%= hidden_field_tag :last_time, last_message.created_at.to_i, class: "message-user", id: "message-last-time" %>
 
               <%= hidden_field_tag :last_message_id, last_message.id, class: "message-user", id: "message-last-id" %>
-
-
+            </tr>
+            <tr>
               <span class="input-group-btn send-message-btn">
                 <%= submit_tag "Send", :user => active_user.id, class: "btn btn-primary", type: "button", id: "message-submit", onclick: "this.form.submit();" %>
               </span>
+            </tr>
+            </table>
             <% end %>
-
           </div>
-
         </div>
       </div>
-
     </div>
-
   </div>
   <% end %>
 </body>
