@@ -35,6 +35,9 @@ class UserMessageController < ApplicationController
     @messages = messages
     @users = users
     @active_conversation = 0
+
+    fresh_when(@messages)
+
   end
 
   def fetch_messages
@@ -156,12 +159,8 @@ class UserMessageController < ApplicationController
 
     @messages = messages
     @users = users
-    render 'messages'
-
+    render 'messages' if stale?(@messages)
   end
-
-
-
 
   def new_message
     if params[:user].nil?

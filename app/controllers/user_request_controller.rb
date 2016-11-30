@@ -140,6 +140,8 @@ class UserRequestController < ApplicationController
     @courses = courses
     @educations = educations
     @user_request = @user_request.paginate(page: params[:page])
+
+    fresh_when(@user_request)
   end
 
   def accept_request
