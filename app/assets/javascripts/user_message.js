@@ -119,14 +119,14 @@ var checkForMessages = function(){
           });
           setTimeout(function(){
             checkForMessages();
-          },5000)
+          },2000)
         },
         error: function(xhr, status, error) {
           console.log(xhr, status, error);
         },
       });
     }
-  }, 5000);
+  }, 2000);
 
 
 }
