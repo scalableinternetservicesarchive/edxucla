@@ -25,25 +25,27 @@
     <% if !@education_users.blank? %>
     
       <br><br><h3>Education</h3>
-      <% @educations.each do |education| %>
-        <h4 class="education"><%= education.name %></h4>
-          <% i = 0 %>
-          <ul>
-          <% while i < @course_users.count do %>
+      <% cache @course_users do %>
+        <% @educations.each do |education| %>
+          <h4 class="education"><%= education.name %></h4>
+            <% i = 0 %>
+            <ul>
+            <% while i < @course_users.count do %>
 
-            <% course_users = @course_users[i] %>
-            <% if @counter == i %>
-              <% course_users.each do |course| %>
-                <li><%= course.course_name.to_s + " " +
-                        " (" +
-                        course.course_alias.to_s + ") "
-                 %></li>
-              <% end %>  
+              <% course_users = @course_users[i] %>
+              <% if @counter == i %>
+                <% course_users.each do |course| %>
+                  <li><%= course.course_name.to_s + " " +
+                          " (" +
+                          course.course_alias.to_s + ") "
+                   %></li>
+                <% end %>  
+              <% end %>
+              <% i +=1 %>
             <% end %>
-            <% i +=1 %>
-          <% end %>
-          </ul>
-          <% @counter += 1%>
+            </ul>
+            <% @counter += 1%>
+        <% end %>
       <% end %>
 
 
