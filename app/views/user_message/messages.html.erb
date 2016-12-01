@@ -60,30 +60,32 @@
           <div class="messages-wrap" id="messages-wrap">
             <% while j < @messages[@active_conversation].count do %>
               <% message = @messages[@active_conversation][j] %>
-              <% other_user = @users[@active_conversation] %>
-              <div class="msg-wrap">
-                <div class="media msg">
-                  <a class="pull-left" href="#">
-                    <%= gravatar_for other_user, size: 35 %>
-                  </a>
-                  <div class="media-body">
-                    <small class="pull-right time white">
-                      <%= message.created_at.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %I:%M%p") %>
-                    </small>
+              <% cache(cache_for_user_message(message)) do %>
+                <% other_user = @users[@active_conversation] %>
+                <div class="msg-wrap">
+                  <div class="media msg">
+                    <a class="pull-left" href="#">
+                      <%= gravatar_for other_user, size: 35 %>
+                    </a>
+                    <div class="media-body">
+                      <small class="pull-right time white">
+                        <%= message.created_at.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %I:%M%p") %>
+                      </small>
 
-                    <h5 class="media-heading">
-                      <% if message.sender == other_user.id %>
-                        <%= other_user.name + " #" + other_user.id.to_s %>
-                      <% else %>
-                        <%= @user.name + " #" + @user.id.to_s%>
-                      <% end %>
-                    </h5>
-                    <small class="col-lg-10 message-text">
-                      <%= message.message %>
-                    </small>
+                      <h5 class="media-heading">
+                        <% if message.sender == other_user.id %>
+                          <%= other_user.name + " #" + other_user.id.to_s %>
+                        <% else %>
+                          <%= @user.name + " #" + @user.id.to_s%>
+                        <% end %>
+                      </h5>
+                      <small class="col-lg-10 message-text">
+                        <%= message.message %>
+                      </small>
+                    </div>
                   </div>
                 </div>
-              </div>
+                <% end %>
 
               <% j += 1 %>
             <% end %>
