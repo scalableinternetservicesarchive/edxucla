@@ -30,7 +30,6 @@ class UsersController < ApplicationController
     @num_course_users = @course_users.count
     @num_educations = @educations.count
     @counter = 0
-
   end
 
   def new

@@ -157,11 +157,7 @@ class UserMessageController < ApplicationController
     @messages = messages
     @users = users
     render 'messages'
-
   end
-
-
-
 
   def new_message
     if params[:user].nil?

@@ -23,6 +23,7 @@ class StaticPagesController < ApplicationController
         i += 1
       end
     end
+
   end
 
   def help
