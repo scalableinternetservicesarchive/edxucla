@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   attr_accessor :remember_token, :education, :course_user
   has_many :educations
-  has_many :course_users
   accepts_nested_attributes_for :educations
 
   before_save { email.downcase! }

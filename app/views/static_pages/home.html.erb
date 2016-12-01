@@ -7,17 +7,19 @@
     <ul class ="sessions">
       <% unless @sessions_student.empty? %>
         <% i = 0 %>
-        <% while i < @sessions_student.count do %>
-        <% conversation = @conversations_student[i].id %>
-          <li>
-            <%= gravatar_for @tutors[i], size: 40 %>
-            <%= @tutors[i].name %>
-            <br>
-            <%# "Session ID: " + @sessions_student[i].id.to_s %>
-            <% string = "Conversation #" + conversation.to_s %>
-            <%= link_to string, message_path(conversation.to_s) %>
-            <% i += 1%>
-          </li>
+        <% cache @sessions_student do %>
+          <% while i < @sessions_student.count do %>
+          <% conversation = @conversations_student[i].id %>
+            <li>
+              <%= gravatar_for @tutors[i], size: 40 %>
+              <%= @tutors[i].name %>
+              <br>
+              <%# "Session ID: " + @sessions_student[i].id.to_s %>
+              <% string = "Conversation #" + conversation.to_s %>
+              <%= link_to string, message_path(conversation.to_s) %>
+              <% i += 1%>
+            </li>
+          <% end %>
         <% end %>
       <% else %>
         <p>No tutors? <%= link_to "Find a tutor!", users_path, class: "noclient" %></p>
@@ -29,17 +31,19 @@
     <ul class ="sessions">
       <% unless @sessions_tutor.empty? %>
         <% i = 0 %>
-        <% while i < @sessions_tutor.count do %>
-        <% conversation = @conversations_tutor[i].id %>
-        <li>
-          <%= gravatar_for @students[i], size: 40 %>
-          <%= @students[i].name %>
-          <br>
-          <%# "Session ID: " + @sessions_tutor[i].id.to_s %>
-          <% string = "Conversation #" + conversation.to_s %>
-          <%= link_to string, message_path(conversation.to_s) %>
-          <% i += 1%>
-        </li>
+        <% cache @sessions_tutor do %>
+          <% while i < @sessions_tutor.count do %>
+          <% conversation = @conversations_tutor[i].id %>
+          <li>
+            <%= gravatar_for @students[i], size: 40 %>
+            <%= @students[i].name %>
+            <br>
+            <%# "Session ID: " + @sessions_tutor[i].id.to_s %>
+            <% string = "Conversation #" + conversation.to_s %>
+            <%= link_to string, message_path(conversation.to_s) %>
+            <% i += 1%>
+          </li>
+          <% end %>
         <% end %>
       <% else %>
         <p>No students? <%= link_to "Find a student!", users_path, class: "noclient" %></p>

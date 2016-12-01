@@ -27,8 +27,8 @@ class UsersController < ApplicationController
     @educations = educations
     @course_users = course_users
 
-    @num_course_users = @course_users.count
-    @num_educations = @educations.count
+    #@num_course_users = @course_users.count
+    #@num_educations = @educations.count
     @counter = 0
 
   end
