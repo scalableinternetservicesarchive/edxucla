@@ -22,7 +22,7 @@ class UserMessageController < ApplicationController
     messages = []
     users = []
 
-    while i < @conversations.count
+    while i < @conversations.size
       messages[i] = UserMessage.where(conversation_id: @conversations[i].id)
       if @conversations[i][:user_one] == @user.id
         users[i] = User.find(@conversations[i][:user_two])
@@ -101,7 +101,7 @@ class UserMessageController < ApplicationController
 
     messages = UserMessage.where('updated_at > :time and receiver = :receiver', time: time, receiver: user.id)
 
-    response = messages.count
+    response = messages.size
 
     render json: response
   end
@@ -140,7 +140,7 @@ class UserMessageController < ApplicationController
     messages = []
     users = []
 
-    while i < @conversations.count
+    while i < @conversations.size
       messages[i] = UserMessage.where(conversation_id: @conversations[i].id)
       if @conversations[i][:user_one] == @user.id
         users[i] = User.find(@conversations[i][:user_two])

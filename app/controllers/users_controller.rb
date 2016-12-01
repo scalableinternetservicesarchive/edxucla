@@ -14,12 +14,12 @@ class UsersController < ApplicationController
     @education_users = EducationUser.where(user_id: @user.id)
     @course_users = CourseUser.where(user_id: @user.id)
 
-    num_education_users = @education_users.count
+    num_education_users = @education_users.size
     educations = []
     course_users = []
     i = 0
 
-    while i < @education_users.count
+    while i < @education_users.size
       educations[i] = Education.find_by(id: @education_users[i].education_id)
         course_users[i] = @course_users.where(education_id: @education_users[i].education_id)
       i += 1
@@ -27,8 +27,8 @@ class UsersController < ApplicationController
     @educations = educations
     @course_users = course_users
 
-    @num_course_users = @course_users.count
-    @num_educations = @educations.count
+    @num_course_users = @course_users.size
+    @num_educations = @educations.size
     @counter = 0
 
   end
@@ -56,12 +56,12 @@ class UsersController < ApplicationController
     @education_users = EducationUser.where(user_id: current_user.id)
     @course_users = CourseUser.where(user_id: current_user.id)
 
-    num_education_users = @education_users.count
+    num_education_users = @education_users.size
     educations = []
     course_users = []
     i = 0
 
-    while i < @education_users.count
+    while i < @education_users.size
       educations[i] = Education.find_by(id: @education_users[i].education_id)
         course_users[i] = @course_users.where(education_id: @education_users[i].education_id)
       i += 1
@@ -69,8 +69,8 @@ class UsersController < ApplicationController
     @educations = educations
     @course_users = course_users
 
-    @num_course_users = @course_users.count
-    @num_educations = @educations.count
+    @num_course_users = @course_users.size
+    @num_educations = @educations.size
     @counter = 0
 
     @new_education = Education.new

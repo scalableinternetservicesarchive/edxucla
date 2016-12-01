@@ -9,7 +9,7 @@
       <h4 class="education"><%=  link_to education.name , :action => :edit_education,:eid => education.id %></h4>
         <% i = 0 %>
         <ul>
-        <% while i < @course_users.count do %>
+        <% while i < @course_users.size do %>
           <% course_users = @course_users[i] %>
           <% if @counter == i %>
             <% course_users.each do |course| %>

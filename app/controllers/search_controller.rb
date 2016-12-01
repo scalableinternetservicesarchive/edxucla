@@ -20,7 +20,7 @@ class SearchController < ApplicationController
       courses_array = []
       i = 0
 
-      while i < courses.count
+      while i < courses.size
         courses_array[i] = courses[i]
         i += 1
       end
@@ -28,7 +28,7 @@ class SearchController < ApplicationController
       i = 0
       educations = []
 
-      while i < courses_array.count
+      while i < courses_array.size
         educations[i] = Education.where(id: courses_array[i].education_id)[0]
         i += 1
       end
@@ -55,7 +55,7 @@ class SearchController < ApplicationController
       i = 0
       user_id_array = []
 
-      while i < course_users.count
+      while i < course_users.size
         user_id_array[i] = course_users[i].user_id
         i += 1
       end
@@ -70,7 +70,7 @@ class SearchController < ApplicationController
       i = 0
       educations = []
 
-      while i < courses.count
+      while i < courses.size
         educations[i] = Education.where(id: courses[i].education_id)[0]
         i += 1
       end
@@ -85,7 +85,7 @@ class SearchController < ApplicationController
       i = 0
       educations = []
 
-      while i < courses.count
+      while i < courses.size
         educations[i] = Education.where(id: courses[i].education_id)[0]
         i += 1
       end

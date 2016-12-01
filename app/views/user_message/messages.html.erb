@@ -23,7 +23,7 @@
     <div class="row messenger-middle-row">
       <% i = 0 %>
         <div class="conversation-wrap col-lg-3">
-          <% while i < @conversations.count do %>
+          <% while i < @conversations.size do %>
             <div class="media conversation" 
             <% if i == @active_conversation %>
              style= "background-color: #365899"
@@ -58,7 +58,7 @@
         <div class="message-wrap col-lg-8">
           <% j = 0 %>
           <div class="messages-wrap" id="messages-wrap">
-            <% while j < @messages[@active_conversation].count do %>
+            <% while j < @messages[@active_conversation].size do %>
               <% message = @messages[@active_conversation][j] %>
               <% other_user = @users[@active_conversation] %>
               <div class="msg-wrap">
