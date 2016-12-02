@@ -3,7 +3,7 @@ class UserMessageController < ApplicationController
   def messages
     @conversation_error = false;
     @conversation_error_message = "You do not have access to this conversation"
-
+    @active_conversation = 0
     @user = current_user
     if @current_user.nil?
       @conversation_error = true;
