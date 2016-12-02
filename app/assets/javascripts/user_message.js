@@ -3,6 +3,10 @@ var scrollDown = function(){
   messages_wrap.scrollTop = messages_wrap.scrollHeight;
 }
 
+var submitMessage = function(){
+  $('#message-submission').submit();
+}
+
 var submitReady = function(){
   var clearTextArea = function(){
     $('#send-message').val('');
